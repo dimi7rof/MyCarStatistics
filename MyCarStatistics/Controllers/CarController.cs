@@ -50,21 +50,7 @@ namespace MyCarStatistics.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        [HttpGet]
-        public IActionResult Refuel()
-        {
-            var refuel = new RefuelViewModel();
-            return View(refuel);
-        }
-        [HttpPost]
-        public IActionResult Refuel(RefuelViewModel refuel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(refuel);
-            }
-            return RedirectToAction("Index");
-        }
+        
 
 
         [HttpPost]
