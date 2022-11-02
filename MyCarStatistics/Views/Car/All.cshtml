@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CarViewModel>
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<div class="text-center row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3 mt-2" scope="col">Brand</th>
+                <th class="col-3 mt-2" scope="col">Model</th>
+                <th class="col-3 mt-2" scope="col">Mileage</th>
+                <th class="col-3 mt-2" scope="col"></th>
+                <th class="col-3 mt-2" scope="col"></th>
+                <th class="col-3 mt-2" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Brand</td>
+                    <td>@car.CarModel</td>
+                    <td>@car.Mileage</td>
+                    <td>
+                        <button type="submit" class="btn btn-success mb-2">View</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-warning mb-2">Edit</button>
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
