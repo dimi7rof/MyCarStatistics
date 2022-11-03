@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyCarStatistics.Models
 {
@@ -11,5 +12,7 @@ namespace MyCarStatistics.Models
         public string CarModel { get; set; } = null!;
 
         public decimal? Mileage { get; set; }
+
+        public int Id { get; set; }
     }
 }

@@ -1,7 +1,24 @@
 ﻿@model RefuelViewModel
 
-<form asp-controller="Car" asp-action="Refuel" method="post">
+@{
+    ViewData["Title"] = "Refuel";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<form asp-controller="Refuel" asp-action="Refuel" method="post">
     <div class="form-row align-items-center">
+        <div class="col-md-6">
+            <label asp-for="Cars">Choose a car:</label>
+            <select asp-for="@Model.Cars" class="form-control">
+                @foreach (var car in Model.Cars)
+                {
+                    <option value="@car.Id">@car.CarModel</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Cars" class="text-danger"></span>
+        </div>
         <div class="col-md-6">
             <label asp-for="Liters">Liters</label>
             <input type="text" class="form-control mb-2" id="Liters">

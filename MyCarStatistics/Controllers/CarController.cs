@@ -12,8 +12,6 @@ namespace MyCarStatistics.Controllers
 
         private readonly ICarService carService;
 
-       
-
         public CarController(UserManager<ApplicationUser> userManager, ICarService carService)
         {
             this.userManager = userManager;
@@ -29,9 +27,8 @@ namespace MyCarStatistics.Controllers
             return View(allCars);
         }
 
-
         [HttpGet]
-        public IActionResult AddCar()
+        public async Task<IActionResult> AddCar()
         {
             var car = new CarViewModel();
             return View(car);
@@ -50,15 +47,18 @@ namespace MyCarStatistics.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
-
 
         [HttpPost]
         public IActionResult Index()
         {
-
-
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Import()
+        {
+            await carService.ImportCars();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

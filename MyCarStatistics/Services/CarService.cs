@@ -1,10 +1,10 @@
-﻿using MyCarStatistics.Contracts;
-using MyCarStatistics.Data.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
+using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
-using MyCarStatistics.Data.Models.Account;
-using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MyCarStatistics.Services
 {
@@ -17,12 +17,12 @@ namespace MyCarStatistics.Services
             context = _context;
         }
 
-        public async Task Add(CarViewModel carViewModel, string userID)
+        public async Task Add(CarViewModel model, string userID)
         {
             var car = new Car()
             {
-                Brand = carViewModel.Brand,
-                CarModel = carViewModel.CarModel,
+                Brand = model.Brand,
+                CarModel = model.CarModel,
                 CreatedOn = DateTime.Now,
                 IsDeleted = false,
                 Mileage = 0,
@@ -32,7 +32,7 @@ namespace MyCarStatistics.Services
             await context.Cars.AddAsync(car);
             await context.SaveChangesAsync();
         }
-        public async Task Refuel(RefuelViewModel model)
+        public async Task Refuel(RefuelViewModel model, string carId)
         {
             var refuel = new Refuel()
             {
@@ -56,7 +56,7 @@ namespace MyCarStatistics.Services
         public async Task<IEnumerable<CarViewModel>> GetAll(string userID)
         {
             var entities = await context.Cars
-                .Where(x => x.UserId == userID)
+                .Where(x => x.UserId == userID || !x.IsDeleted)
                 .ToListAsync();
 
             return entities
@@ -68,6 +68,26 @@ namespace MyCarStatistics.Services
                 });
         }
 
+       
+
+
+
+
+
+
+
+
+        public async Task ImportCars()
+        {
+        //    string inputJson = File.ReadAllText("../../../Data/Seed/CarBrandsAndModels.json");
+        //    StringBuilder sb = new StringBuilder();
+
+        //    AllCars[] allCars = JsonConvert.DeserializeObject<AllCars[]>(inputJson);
+
+        //    context.AllCars.AddRange(allCars);
+        //    context.SaveChanges();
+
+        }
 
     }
 }

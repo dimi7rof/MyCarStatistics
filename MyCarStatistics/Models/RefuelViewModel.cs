@@ -14,5 +14,9 @@ namespace MyCarStatistics.Models
         public string? GasStation { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public int CarId { get; set; }
+
+        public List<CarViewModel> Cars { get; set; }
     }
 }
