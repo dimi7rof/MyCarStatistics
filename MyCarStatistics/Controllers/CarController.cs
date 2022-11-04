@@ -22,8 +22,7 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> All()
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
-            var userId = user.Id.ToString();
-            var allCars = await carService.GetAll(userId);
+            var allCars = await carService.GetAll(user.Id.ToString());
             return View(allCars);
         }
 
@@ -42,17 +41,15 @@ namespace MyCarStatistics.Controllers
                 return View(car);
             }
             var user = await userManager.FindByNameAsync(User.Identity.Name);
-            var userId = user.Id.ToString();
-            carService.Add(car, userId);
+            carService.Add(car, user.Id.ToString());
 
             return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         public IActionResult Index()
-        {
-            return Ok();
-        }
+            => Ok();
+        
 
         [HttpPost]
         public async Task<IActionResult> Import()

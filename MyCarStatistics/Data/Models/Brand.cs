@@ -6,7 +6,12 @@ namespace MyCarStatistics.Data.Models
     {
         [Key]
         public int Id { get; set; }
+
         public string BrandName { get; set; } = null!;
-        public List<CarModel> Models { get; set; } = new List<CarModel>();
+
+        public string? Url { get; set; }
+
+        public string? Logo { get; set; }
+                
     }
 }

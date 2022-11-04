@@ -19,8 +19,10 @@ namespace MyCarStatistics.Services
 
         public async Task Add(CarViewModel model, string userID)
         {
+            var id = context.Cars.Count();
             var car = new Car()
             {
+                Id= id++,
                 Brand = model.Brand,
                 CarModel = model.CarModel,
                 CreatedOn = DateTime.Now,
@@ -77,17 +79,32 @@ namespace MyCarStatistics.Services
 
 
 
-        public async Task ImportCars()
+        public async Task  ImportCars()
         {
-        //    string inputJson = File.ReadAllText("../../../Data/Seed/CarBrandsAndModels.json");
-        //    StringBuilder sb = new StringBuilder();
+           //  StringBuilder sb = new StringBuilder();
 
-        //    AllCars[] allCars = JsonConvert.DeserializeObject<AllCars[]>(inputJson);
+           // BrandJsonModel[] brands = JsonConvert.DeserializeObject<BrandJsonModel[]>(@"..\..\..\Data\Seed\brands.json");
 
-        //    context.AllCars.AddRange(allCars);
-        //    context.SaveChanges();
+           // List<Brand> valid = new List<Brand>();
+           // foreach (var br in brands)
+           // {
+           //     var brand = new Brand()
+           //     {
+           //         BrandName = br.Name,
+           //         Url = br.Url,
+           //         Logo = br.Logo
+           //     };
+           //     valid.Add(brand);
+           // }
+
+           //context.Brands.AddRange(valid);
+           // context.SaveChanges();
+
+           // Console.WriteLine($"Successfully imported {valid.Count}");
+
 
         }
 
+        
     }
 }

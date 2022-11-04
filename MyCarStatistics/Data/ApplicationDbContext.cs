@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
+using MyCarStatistics.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MyCarStatistics.Data
 {
@@ -24,27 +27,22 @@ namespace MyCarStatistics.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<CarModel>()
-            //     .HasOne<Brand>(b => b.Brand)
-            //     .WithMany(m => m.Models)
-            //     .HasForeignKey(b => b.BrandId);
-
             //modelBuilder.Entity<Brand>()
-            //    .HasData( new Brand()
+            //    .HasData(new Brand()
+            //    {
+            //        Id = 1,
+            //        BrandName = "Peugeot"                    
+            //    });
+            //modelBuilder.Entity<CarModel>()
+            //    .HasData( new CarModel()
             //    { 
             //        Id = 1,
-            //        BrandName = "Peugeot",
-            //        Models = new List<CarModel>()
-            //        {
-            //            new CarModel()
-            //            {
-            //                ModelName =  "1007"
-            //            }
-            //        }
+            //        ModelName = "206",
+            //        BrandId = 1
             //    });
-
-
+            
             base.OnModelCreating(modelBuilder);
         }
+       
     }
 }

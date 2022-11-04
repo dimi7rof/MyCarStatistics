@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyCarStatistics.Data;
 
@@ -11,9 +12,10 @@ using MyCarStatistics.Data;
 namespace MyCarStatistics.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221104155242_BrandListOfModelsRemoved")]
+    partial class BrandListOfModelsRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,13 +252,6 @@ namespace MyCarStatistics.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Brands");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BrandName = "Peugeot"
-                        });
                 });
 
             modelBuilder.Entity("MyCarStatistics.Data.Models.Car", b =>
@@ -315,14 +310,6 @@ namespace MyCarStatistics.Data.Migrations
                     b.HasIndex("BrandId");
 
                     b.ToTable("CarModels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BrandId = 1,
-                            ModelName = "206"
-                        });
                 });
 
             modelBuilder.Entity("MyCarStatistics.Data.Models.Expense", b =>
