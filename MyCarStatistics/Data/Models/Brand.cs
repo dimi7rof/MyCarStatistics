@@ -2,11 +2,11 @@
 
 namespace MyCarStatistics.Data.Models
 {
-    public class AllCars
+    public class Brand
     {
         [Key]
         public int Id { get; set; }
-        public string Brand { get; set; }
-        public string Models { get; set; }
+        public string BrandName { get; set; } = null!;
+        public List<CarModel> Models { get; set; } = new List<CarModel>();
     }
 }

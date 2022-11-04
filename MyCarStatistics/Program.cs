@@ -3,8 +3,6 @@ using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Services;
-using Microsoft.AspNetCore.Identity;
-using MyCarStatistics.Data.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'MyCarStaticticsContextConnection' not found.");
