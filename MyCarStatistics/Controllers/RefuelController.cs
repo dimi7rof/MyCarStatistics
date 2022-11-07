@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
-using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
-using MyCarStatistics.Services;
 
 namespace MyCarStatistics.Controllers
 {
     public class RefuelController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IRefuelService refuelService;
         private readonly ICarService carService;
 
-        public RefuelController(UserManager<ApplicationUser> userManager, ICarService carService)
+        public RefuelController(UserManager<ApplicationUser> userManager, IRefuelService refuelService, ICarService carService)
         {
             this.userManager = userManager;
+            this.refuelService = refuelService;
             this.carService = carService;
         }
 
@@ -39,10 +39,17 @@ namespace MyCarStatistics.Controllers
                 return View(refuel);
             }
             
-            await carService.Refuel(refuel, "1");
+            await refuelService.Refuel(refuel, "1");
 
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> All()
+        {
+            return View();
+        }
+
+
+
         public IActionResult Index()
         {
 

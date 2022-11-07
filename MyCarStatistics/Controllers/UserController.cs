@@ -10,7 +10,6 @@ namespace MyCarStatistics.Controllers
     public class UserController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
-
         private readonly SignInManager<ApplicationUser> signInManager;
 
         public UserController(
@@ -31,7 +30,6 @@ namespace MyCarStatistics.Controllers
             }
 
             var model = new RegisterViewModel();
-
             return View(model);
         }
 
@@ -75,7 +73,6 @@ namespace MyCarStatistics.Controllers
             }
 
             var model = new LoginViewModel();
-
             return View(model);
         }
 
@@ -101,14 +98,12 @@ namespace MyCarStatistics.Controllers
             }
 
             ModelState.AddModelError("", "Invalid login");
-
             return View(model);
         }
 
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-
             return RedirectToAction("Index", "Home");
         }
 

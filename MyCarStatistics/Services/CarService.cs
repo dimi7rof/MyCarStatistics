@@ -3,8 +3,6 @@ using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
-using Newtonsoft.Json;
-using System.Text;
 
 namespace MyCarStatistics.Services
 {
@@ -19,10 +17,8 @@ namespace MyCarStatistics.Services
 
         public async Task Add(CarViewModel model, string userID)
         {
-            var id = context.Cars.Count();
             var car = new Car()
             {
-                Id= id++,
                 Brand = model.Brand,
                 CarModel = model.CarModel,
                 CreatedOn = DateTime.Now,
@@ -34,23 +30,8 @@ namespace MyCarStatistics.Services
             await context.Cars.AddAsync(car);
             await context.SaveChangesAsync();
         }
-        public async Task Refuel(RefuelViewModel model, string carId)
-        {
-            var refuel = new Refuel()
-            {
-                Liters = model.Liters,
-                Cost = model.Cost,
-                DrivenKm = model.DrivenKm,
-                GasStation = model.GasStation,
-                Date = DateTime.Now,
-                IsDeleted = false
-            };
-            await context.Refuels.AddAsync(refuel);
-            await context.SaveChangesAsync();
-        }
 
-
-        public Task Delete(string userId)
+        public Task Delete(string carId)
         {
             throw new NotImplementedException();
         }
@@ -70,41 +51,9 @@ namespace MyCarStatistics.Services
                 });
         }
 
-       
-
-
-
-
-
-
-
-
         public async Task  ImportCars()
         {
-           //  StringBuilder sb = new StringBuilder();
-
-           // BrandJsonModel[] brands = JsonConvert.DeserializeObject<BrandJsonModel[]>(@"..\..\..\Data\Seed\brands.json");
-
-           // List<Brand> valid = new List<Brand>();
-           // foreach (var br in brands)
-           // {
-           //     var brand = new Brand()
-           //     {
-           //         BrandName = br.Name,
-           //         Url = br.Url,
-           //         Logo = br.Logo
-           //     };
-           //     valid.Add(brand);
-           // }
-
-           //context.Brands.AddRange(valid);
-           // context.SaveChanges();
-
-           // Console.WriteLine($"Successfully imported {valid.Count}");
-
-
-        }
-
-        
+          
+        }        
     }
 }

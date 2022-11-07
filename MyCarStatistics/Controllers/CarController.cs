@@ -9,7 +9,6 @@ namespace MyCarStatistics.Controllers
     public class CarController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
-
         private readonly ICarService carService;
 
         public CarController(UserManager<ApplicationUser> userManager, ICarService carService)
@@ -41,8 +40,8 @@ namespace MyCarStatistics.Controllers
                 return View(car);
             }
             var user = await userManager.FindByNameAsync(User.Identity.Name);
-            carService.Add(car, user.Id.ToString());
-
+            await carService.Add(car, user.Id.ToString());
+            
             return RedirectToAction("Index", "Home");
         }
 

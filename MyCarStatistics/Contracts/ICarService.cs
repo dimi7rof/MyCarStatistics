@@ -8,9 +8,7 @@ namespace MyCarStatistics.Contracts
 
         Task Add(CarViewModel carViewModel, string userID);
 
-        Task Refuel(RefuelViewModel model, string carId);
-
-        Task Delete(string userId);
+        Task Delete(string carId);
 
         Task ImportCars();
     }

@@ -23,9 +23,9 @@ namespace MyCarStatistics.Data.Models
 
         [Required]
         [ForeignKey(nameof(User))]
-        public string? UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
-        public ApplicationUser? User { get; set; } 
+        public ApplicationUser User { get; set; } = null!;
 
         public ICollection<Refuel> Refuels { get; set; } = new List<Refuel>();
         public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
