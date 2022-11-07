@@ -18,6 +18,19 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(string carId)
+        {
+            var car = new CarViewModel();
+            return View(car);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CarViewModel car)
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> All()
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);

@@ -39,6 +39,7 @@ namespace MyCarStatistics.Controllers
                 return View(refuel);
             }
             
+            //TODO fix car id
             await refuelService.Refuel(refuel, "1");
 
             return RedirectToAction("Index");
@@ -48,11 +49,8 @@ namespace MyCarStatistics.Controllers
             return View();
         }
 
-
-
         public IActionResult Index()
         {
-
             return View();
         }
     }

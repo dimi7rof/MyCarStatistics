@@ -28,11 +28,12 @@
                     <td>@car.Brand</td>
                     <td>@car.CarModel</td>
                     <td>@car.Mileage</td>
+                    <td></td>
                     <td>
-                        <button type="submit" class="btn btn-success mb-2">View</button>
+                        <input type="button" value="View" onclick="location.href='@Url.Action("View", "Car")'" />
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-warning mb-2">Edit</button>
+                        <input type="button" value="Edit" onclick="location.href='@Url.Action("Edit", "Car", car.Id)'" />
                     </td>
                     <td>
                         <button type="submit" class="btn btn-danger mb-2">Delete</button>
