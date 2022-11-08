@@ -27,7 +27,7 @@ namespace MyCarStatistics.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Edit(string carId)
+        public async Task<IActionResult> Edit(int carId)
         {
             var car = new CarViewModel();
             return View(car);
@@ -37,6 +37,13 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> Edit(CarViewModel car)
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int carId)
+        {
+            await carService.Delete(carId);
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
@@ -72,11 +79,11 @@ namespace MyCarStatistics.Controllers
             => Ok();
         
 
-        [HttpPost]
-        public async Task<IActionResult> Import()
-        {
-            await carService.ImportCars();
-            return RedirectToAction("Index", "Home");
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> Import()
+        //{
+        //    await carService.ImportCars();
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }

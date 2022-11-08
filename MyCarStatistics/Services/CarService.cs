@@ -26,14 +26,19 @@ namespace MyCarStatistics.Services
                 Mileage = 0,
                 UserId = userID
             };
-            
+
             await context.Cars.AddAsync(car);
             await context.SaveChangesAsync();
         }
 
-        public Task Delete(string carId)
+        public async Task Delete(int carId)
         {
-            throw new NotImplementedException();
+            var entity =await context.Cars.FirstOrDefaultAsync(x => x.Id == carId);
+            // TODO
+            //entity.IsDeleted = true;
+            //context.Update(entity);
+            context.Remove(entity);
+            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CarViewModel>> GetAll(string userID)
@@ -99,11 +104,11 @@ namespace MyCarStatistics.Services
             return overview;
         }
 
-        public async Task  ImportCars()
+        public async Task ImportCars()
         {
-          
+
         }
 
-       
+
     }
 }

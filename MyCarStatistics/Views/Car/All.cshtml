@@ -35,10 +35,14 @@
                         </form>
                     </td>
                     <td>
-                        <input type="button" value="Edit" onclick="location.href='@Url.Action("Edit", "Car", car.Id)'" />
+                        <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="Edit" method="post">
+                            <input type="submit" value="Edit" class="fs-6 btn btn-warning mb-3 p-2" />
+                        </form>
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-danger mb-2">Delete</button>
+                        <form class="input-group-sm" asp-route-carId="@car.Id" asp-controller="Car" asp-action="Delete" method="post">
+                            <input type="submit" value="Delete" class="fs-6 btn btn-danger mb-3 p-2" />
+                        </form>
                     </td>
                 </tr>
             }
