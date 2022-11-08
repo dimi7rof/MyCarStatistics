@@ -45,15 +45,65 @@ namespace MyCarStatistics.Services
             return entities
                 .Select(m => new CarViewModel()
                 {
+                    Id = m.Id,
                     CarModel = m.CarModel,
                     Brand = m.Brand,
                     Mileage = m.Mileage
                 });
         }
 
+        public async Task<OverviewModel> GetOverviewData(int carId, string userID)
+        {
+            var carInfo = await context.Cars
+                .AsNoTracking()
+                .Where(x => x.UserId == userID || !x.IsDeleted)
+                .FirstOrDefaultAsync(x => x.Id == carId);
+
+            decimal income = context.Incomes.AsNoTracking()
+                .Where(x => x.CarId == carId)
+                .Sum(i => i.Earned);
+
+            decimal expenses = context.Expenses.AsNoTracking()
+                .Where(x => x.CarId == carId)
+                .Sum(e => e.Cost) ?? 0;
+
+            decimal refuels = context.Refuels.AsNoTracking()
+                .Where(x => x.CarId == carId)
+                .Sum(e => e.Cost) ?? 0;
+
+            int refuelCount = context.Refuels.AsNoTracking()
+                .Where(x => x.CarId == carId)
+                .Count();
+
+            decimal liters = context.Refuels.AsNoTracking()
+               .Where(x => x.CarId == carId)
+               .Sum(e => e.Liters);
+
+            decimal services = context.Services.AsNoTracking()
+                .Where(x => x.CarId == carId)
+                .Sum(e => e.Cost) ?? 0;
+
+            var overview = new OverviewModel()
+            {
+                CarModel = carInfo.CarModel,
+                Brand = carInfo.Brand,
+                Mileage = carInfo.Mileage,
+                MoneyEarned = income,
+                TotalCostRefuels = refuels,
+                TotalCostExpenses = expenses,
+                TotalCostServices = services,
+                TotalLiters = liters,
+                Refuels = refuelCount
+            };
+
+            return overview;
+        }
+
         public async Task  ImportCars()
         {
           
-        }        
+        }
+
+       
     }
 }

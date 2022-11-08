@@ -1,0 +1,40 @@
+﻿@model OverviewModel
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<div class="text-center row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3 mt-2" scope="col">Brand</th>
+                <th class="col-3 mt-2" scope="col">Model</th>
+                <th class="col-3 mt-2" scope="col">Mileage</th>
+                <th class="col-3 mt-2" scope="col">Refuels</th>
+                <th class="col-3 mt-2" scope="col">TotalLiters</th>
+                <th class="col-3 mt-2" scope="col">TotalCostRefuels</th>
+                <th class="col-3 mt-2" scope="col">TotalCostExpenses</th>
+                <th class="col-3 mt-2" scope="col">TotalCostServices</th>
+                <th class="col-3 mt-2" scope="col">MoneyEarned</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Brand</td>
+                <td>@Model.CarModel</td>
+                <td>@Model.Mileage</td>
+                <td>@Model.Refuels</td>
+                <td>@Model.TotalLiters</td>
+                <td>@Model.TotalCostRefuels</td>
+                <td>@Model.TotalCostExpenses</td>
+                <td>@Model.TotalCostServices</td>
+                <td>@Model.MoneyEarned</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

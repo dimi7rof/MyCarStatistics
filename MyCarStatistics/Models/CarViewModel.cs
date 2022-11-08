@@ -5,6 +5,8 @@ namespace MyCarStatistics.Models
 {
     public class CarViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string Brand { get; set; } = null!;
 
@@ -13,6 +15,5 @@ namespace MyCarStatistics.Models
 
         public decimal? Mileage { get; set; }
 
-        public int Id { get; set; }
     }
 }

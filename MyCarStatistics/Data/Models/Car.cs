@@ -27,9 +27,9 @@ namespace MyCarStatistics.Data.Models
 
         public ApplicationUser User { get; set; } = null!;
 
-        public ICollection<Refuel> Refuels { get; set; } = new List<Refuel>();
-        public ICollection<Expense> Expenses { get; set; } = new List<Expense>();
-        public ICollection<Income> Incomes { get; set; } = new List<Income>();
-        public ICollection<Service> Services { get; set; } = new List<Service>();
+        public List<Refuel> Refuels { get; set; } = new List<Refuel>();
+        public List<Expense> Expenses { get; set; } = new List<Expense>();
+        public List<Income> Incomes { get; set; } = new List<Income>();
+        public List<Service> Services { get; set; } = new List<Service>();
     }
 }
