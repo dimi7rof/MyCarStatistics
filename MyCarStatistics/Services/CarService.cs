@@ -2,6 +2,7 @@
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
+using MyCarStatistics.Data.Seed;
 using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Services
@@ -36,7 +37,6 @@ namespace MyCarStatistics.Services
             var entity =await context.Cars.FirstOrDefaultAsync(x => x.Id == carID);
             entity.IsDeleted = true;
             context.Update(entity);
-            //context.Remove(entity);
             await context.SaveChangesAsync();
         }
 
@@ -119,7 +119,9 @@ namespace MyCarStatistics.Services
 
         public async Task ImportCars()
         {
-            
+            var brands = JsonDeserialize.MySeed();
+            await context.Brands.AddRangeAsync(brands);
+            await context.SaveChangesAsync();
         }
 
         public async Task SaveCar(CarViewModel model)

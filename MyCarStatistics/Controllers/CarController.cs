@@ -70,20 +70,20 @@ namespace MyCarStatistics.Controllers
             }
             var user = await userManager.FindByNameAsync(User.Identity.Name);
             await carService.Add(car, user.Id.ToString());
-            
-            return RedirectToAction("Index", "Home");
+
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
         public IActionResult Index()
             => Ok();
-        
 
-        //[HttpPost]
-        //public async Task<IActionResult> Import()
-        //{
-        //    await carService.ImportCars();
-        //    return RedirectToAction("Index", "Home");
-        //}
+
+        [HttpGet]
+        public async Task<IActionResult> Import()
+        {
+            await carService.ImportCars();
+            return RedirectToAction(nameof(All));
+        }
     }
 }

@@ -5,37 +5,33 @@ using System.Text;
 
 namespace MyCarStatistics.Data.Seed
 {
-    public class JsonDeserialize
+    public static class JsonDeserialize
     {
-        private readonly ApplicationDbContext context;
-
-        public JsonDeserialize(ApplicationDbContext context)
+        public static List<Brand> MySeed()
         {
-            this.context = context;
-        }
-
-        public void ImportBrands(ApplicationDbContext context)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            BrandJsonModel[] brands = JsonConvert.DeserializeObject<BrandJsonModel[]>(@"..\..\..\Data\Seed\brands.json");
-
+            string data = File.ReadAllText(@"Data\Seed\CarBrandsAndModels.json");
+            ImportBrandModel[] brands = JsonConvert.DeserializeObject<ImportBrandModel[]>(data);
             List<Brand> valid = new List<Brand>();
             foreach (var br in brands)
             {
+                var modelList = new List<CarModel>();
+                foreach (var model in br.Models)
+                {                   
+                    var model1 = new CarModel()
+                    { 
+                        ModelName = model
+                    };
+                    modelList.Add(model1);
+                }
                 var brand = new Brand()
                 {
-                    BrandName = br.Name,
-                    Url = br.Url,
-                    Logo = br.Logo
+                    BrandName = br.Brand,
+                    CarModels = modelList
+
                 };
                 valid.Add(brand);
             }
-
-            context.Brands.AddRange(valid);
-            context.SaveChanges();
-
-            Console.WriteLine($"Successfully imported {valid.Count}");
+            return valid;
         }
     }
 }

@@ -9,9 +9,7 @@ namespace MyCarStatistics.Data.Models
 
         public string BrandName { get; set; } = null!;
 
-        public string? Url { get; set; }
+        public List<CarModel> CarModels { get; set; } = new List<CarModel>();
 
-        public string? Logo { get; set; }
-                
     }
 }
