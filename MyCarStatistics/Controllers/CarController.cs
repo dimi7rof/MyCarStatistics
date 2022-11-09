@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
+using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
@@ -25,24 +26,23 @@ namespace MyCarStatistics.Controllers
             return View(carOverview);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(int carId)
+        [HttpPost]
+        public async Task<IActionResult> Edit(CarViewModel car, int carID)
         {
-            var car = new CarViewModel();
-            return View(car);
+            if (car.Brand == null)
+            {
+                var entity = await carService.GetCarInfo(carID);
+                return View(entity);
+            }
+
+            await carService.SaveCar(car);
+            return RedirectToAction(nameof(All));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CarViewModel car)
+        public async Task<IActionResult> Delete(int carID)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(int carId)
-        {
-            await carService.Delete(carId);
+            await carService.Delete(carID);
             return RedirectToAction(nameof(All));
         }
 

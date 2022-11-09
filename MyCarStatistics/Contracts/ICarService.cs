@@ -1,4 +1,5 @@
-﻿using MyCarStatistics.Models;
+﻿using MyCarStatistics.Data.Models;
+using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Contracts
 {
@@ -6,12 +7,16 @@ namespace MyCarStatistics.Contracts
     {
         Task<IEnumerable<CarViewModel>> GetAll(string userID);
 
-        Task Add(CarViewModel carViewModel, string userID);
+        Task Add(CarViewModel model, string userID);
 
-        Task Delete(int carId);
+        Task Delete(int carID);
 
         Task ImportCars();
 
-        Task<OverviewModel> GetOverviewData(int carId, string userID);
+        Task<OverviewModel> GetOverviewData(int carID, string userID);
+
+        Task<CarViewModel> GetCarInfo(int carID);
+
+        Task SaveCar(CarViewModel model);
     }
 }

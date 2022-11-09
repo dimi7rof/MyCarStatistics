@@ -31,20 +31,19 @@ namespace MyCarStatistics.Services
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(int carId)
+        public async Task Delete(int carID)
         {
-            var entity =await context.Cars.FirstOrDefaultAsync(x => x.Id == carId);
-            // TODO
-            //entity.IsDeleted = true;
-            //context.Update(entity);
-            context.Remove(entity);
+            var entity =await context.Cars.FirstOrDefaultAsync(x => x.Id == carID);
+            entity.IsDeleted = true;
+            context.Update(entity);
+            //context.Remove(entity);
             await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<CarViewModel>> GetAll(string userID)
         {
             var entities = await context.Cars
-                .Where(x => x.UserId == userID || !x.IsDeleted)
+                .Where(x => x.UserId == userID && !x.IsDeleted)
                 .ToListAsync();
 
             return entities
@@ -55,6 +54,20 @@ namespace MyCarStatistics.Services
                     Brand = m.Brand,
                     Mileage = m.Mileage
                 });
+        }
+
+        public async Task<CarViewModel> GetCarInfo(int carID)
+        {
+            var entity = await context.Cars
+                .FirstOrDefaultAsync(x => x.Id == carID);
+            var car = new CarViewModel()
+            { 
+                Id = carID,
+                Brand = entity.Brand,
+                CarModel = entity.CarModel,
+                Mileage = entity.Mileage
+            };
+            return car;
         }
 
         public async Task<OverviewModel> GetOverviewData(int carId, string userID)
@@ -106,9 +119,19 @@ namespace MyCarStatistics.Services
 
         public async Task ImportCars()
         {
-
+            
         }
 
+        public async Task SaveCar(CarViewModel model)
+        {
+            var entity = context.Cars.Find(model.Id);
+            //if (entity == null) return;
+            entity.Brand = model.Brand;
+            entity.Mileage = model.Mileage;
+            entity.CarModel = model.CarModel;
 
+            context.Cars.Update(entity);
+            await context.SaveChangesAsync();
+        }
     }
 }
