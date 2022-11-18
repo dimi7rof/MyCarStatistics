@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ganss.Xss;
+using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
@@ -10,18 +11,21 @@ namespace MyCarStatistics.Services
     public class CarService : ICarService
     {
         private readonly ApplicationDbContext context;
+        private readonly HtmlSanitizer sanitizer;
 
-        public CarService(ApplicationDbContext _context)
+       
+        public CarService(ApplicationDbContext _context, HtmlSanitizer _sanitizer)
         {
             context = _context;
+            sanitizer = _sanitizer;
         }
 
         public async Task Add(CarViewModel model, string userID)
         {
             var car = new Car()
             {
-                Brand = model.Brand,
-                CarModel = model.CarModel,
+                Brand = sanitizer.Sanitize(model.Brand),
+                CarModel = sanitizer.Sanitize(model.CarModel),
                 CreatedOn = DateTime.Now,
                 IsDeleted = false,
                 Mileage = 0,
@@ -56,6 +60,9 @@ namespace MyCarStatistics.Services
                 });
         }
 
+        public async Task<IEnumerable<Brand>> GetBrands() 
+           => await context.Brands.ToListAsync();        
+
         public async Task<CarViewModel> GetCarInfo(int carID)
         {
             var entity = await context.Cars
@@ -72,6 +79,8 @@ namespace MyCarStatistics.Services
 
         public async Task<OverviewModel> GetOverviewData(int carId, string userID)
         {
+            // TODO 1 query
+
             var carInfo = await context.Cars
                 .AsNoTracking()
                 .Where(x => x.UserId == userID || !x.IsDeleted)
@@ -103,6 +112,7 @@ namespace MyCarStatistics.Services
 
             var overview = new OverviewModel()
             {
+                Id = carId,
                 CarModel = carInfo.CarModel,
                 Brand = carInfo.Brand,
                 Mileage = carInfo.Mileage,
@@ -127,10 +137,9 @@ namespace MyCarStatistics.Services
         public async Task SaveCar(CarViewModel model)
         {
             var entity = context.Cars.Find(model.Id);
-            //if (entity == null) return;
-            entity.Brand = model.Brand;
+            entity.Brand = sanitizer.Sanitize(model.Brand);
             entity.Mileage = model.Mileage;
-            entity.CarModel = model.CarModel;
+            entity.CarModel = sanitizer.Sanitize(model.CarModel);
 
             context.Cars.Update(entity);
             await context.SaveChangesAsync();

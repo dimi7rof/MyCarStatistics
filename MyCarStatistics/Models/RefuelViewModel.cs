@@ -4,7 +4,12 @@ namespace MyCarStatistics.Models
 {
     public class RefuelViewModel
     {
-        [Required]
+        public int Id { get; set; }
+
+        public string? Brand { get; set; }
+
+        public string? CarModel { get; set; }
+
         public decimal Liters { get; set; }
 
         public decimal Cost { get; set; }
@@ -13,10 +18,10 @@ namespace MyCarStatistics.Models
 
         public string? GasStation { get; set; }
 
-        public bool IsDeleted { get; set; }
+        //public bool IsDeleted { get; set; }
 
         public int CarId { get; set; }
 
-        public List<CarViewModel> Cars { get; set; }
+        //public List<CarViewModel> Cars { get; set; }
     }
 }

@@ -8,6 +8,21 @@
 
 
 <div class="text-center row">
+    <div class="container-fluid">
+        <form class="input-group-sm" asp-route-carId="@Model.Id" asp-controller="Refuel" asp-action="Refuel" method="post">
+            <input type="submit" value="Refuel" class="fs-6 btn btn-primary mb-3 p-2" />
+        </form>
+    </div>
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-route-carId="@Model.Id"  asp-area="" asp-controller="Refuel" asp-action="Refuel">Refuel</a>
+            </li>
+
+        </ul>
+        <partial name="_LoginPartial" />
+    </div>
+
     <table class="table">
         <thead>
             <tr>

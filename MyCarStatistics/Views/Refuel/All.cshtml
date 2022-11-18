@@ -1,0 +1,45 @@
+﻿@model IEnumerable<RefuelViewModel>
+
+@{
+    ViewData["Title"] = "My Cars";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<div class="text-center row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-3 mt-2" scope="col">Brand</th>
+                <th class="col-3 mt-2" scope="col">Model</th>
+                <th class="col-3 mt-2" scope="col">Liters</th>
+                <th class="col-3 mt-2" scope="col">Cost</th>
+                <th class="col-3 mt-2" scope="col">DrivenKm</th>
+                <th class="col-3 mt-2" scope="col">GasStation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>@ViewBag.AllLiters</td>
+                <td>@ViewBag.AllCost</td>
+                <td>@ViewBag.AllKm</td>
+                <td></td>
+            </tr>
+
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Brand</td>
+                    <td>@car.CarModel</td>
+                    <td>@car.Liters</td>
+                    <td>@car.Cost</td>
+                    <td>@car.DrivenKm</td>
+                    <td>@car.GasStation</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

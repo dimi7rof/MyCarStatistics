@@ -18,5 +18,7 @@ namespace MyCarStatistics.Contracts
         Task<CarViewModel> GetCarInfo(int carID);
 
         Task SaveCar(CarViewModel model);
+
+        Task<IEnumerable<Brand>> GetBrands();
     }
 }

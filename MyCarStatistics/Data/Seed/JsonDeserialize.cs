@@ -1,7 +1,6 @@
 ﻿using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
 using Newtonsoft.Json;
-using System.Text;
 
 namespace MyCarStatistics.Data.Seed
 {

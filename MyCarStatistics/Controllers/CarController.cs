@@ -49,7 +49,7 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All()
         {
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await userManager.FindByNameAsync(User?.Identity?.Name);
             var allCars = await carService.GetAll(user.Id.ToString());
             return View(allCars);
         }
@@ -58,6 +58,7 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> AddCar()
         {
             var car = new CarViewModel();
+            //ViewBag.Brands = carService.GetBrands();
             return View(car);
         }
 

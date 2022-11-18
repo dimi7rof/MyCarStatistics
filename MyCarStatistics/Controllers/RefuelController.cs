@@ -20,33 +20,37 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Refuel()
+        public async Task<IActionResult> Refuel(int CarId)
         {
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
-            var userId = user.Id.ToString();
-            var allCars = await carService.GetAll(userId);
-            var refuel = new RefuelViewModel()
-            {
-                Cars = allCars.ToList()
-            };
-            return View(refuel);
+            //var user = await userManager.FindByNameAsync(User.Identity.Name);
+            //var userId = user.Id.ToString();
+            //var allCars = await carService.GetAll(userId);
+            //var refuel = new RefuelViewModel()
+            //{
+            //    Cars = allCars.ToList()
+            //};
+            var model = await refuelService.GetCar(CarId);
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Refuel(RefuelViewModel refuel)
+        public async Task<IActionResult> Refuel(RefuelViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(refuel);
+                return View(model);
             }
             
-            //TODO fix car id
-            await refuelService.Refuel(refuel, "1");
+            await refuelService.Refuel(model);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("All");
         }
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int carId)
         {
-            return View();
+            var allRefuels = await refuelService.GetRefuels(carId);
+            ViewBag.AllLiters = allRefuels.Sum(r => r.Liters);
+            ViewBag.AllCost = allRefuels.Sum(r => r.Cost);
+            ViewBag.AllKm = allRefuels.Sum(r => r.DrivenKm);
+            return View(allRefuels);
         }
 
         public IActionResult Index()
