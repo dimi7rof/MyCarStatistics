@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models.Account;
+using MyCarStatistics.Repository;
 using MyCarStatistics.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +26,10 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<IRefuelService, RefuelService>();
 builder.Services.AddScoped<ICarService, CarService>();
+builder.Services.AddScoped<IRepository, Repository>();
 
 
 

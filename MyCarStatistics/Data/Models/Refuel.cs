@@ -13,7 +13,7 @@ namespace MyCarStatistics.Data.Models
 
         public decimal? Cost { get; set; }
 
-        public decimal? DrivenKm { get; set; }
+        public decimal? Trip { get; set; }
 
         public string? GasStation { get; set; }
 

@@ -17,8 +17,7 @@ namespace MyCarStatistics.Data
         public DbSet<Expense> Expenses { get; set; } = null!;
         public DbSet<Income> Incomes { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
-        public DbSet<Brand> Brands { get; set; } = null!;
-        public DbSet<CarModel> CarModels { get; set; } = null!;
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {     

@@ -1,53 +1,50 @@
-﻿using Ganss.Xss;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
-using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
-using MyCarStatistics.Data.Seed;
 using MyCarStatistics.Models;
+using MyCarStatistics.Repository;
 
 namespace MyCarStatistics.Services
 {
     public class CarService : ICarService
     {
-        private readonly ApplicationDbContext context;
-        private readonly HtmlSanitizer sanitizer;
+        
+        private readonly IRepository repo;
+        //private readonly HtmlSanitizer sanitizer;
 
-       
-        public CarService(ApplicationDbContext _context, HtmlSanitizer _sanitizer)
+        public CarService(IRepository repo)
         {
-            context = _context;
-            sanitizer = _sanitizer;
+            this.repo = repo;
         }
 
-        public async Task Add(CarViewModel model, string userID)
+
+        public async Task Add(CarViewModel model, string userId)
         {
             var car = new Car()
             {
-                Brand = sanitizer.Sanitize(model.Brand),
-                CarModel = sanitizer.Sanitize(model.CarModel),
+                Brand = model.Brand,
+                CarModel = model.CarModel,
                 CreatedOn = DateTime.Now,
                 IsDeleted = false,
                 Mileage = 0,
-                UserId = userID
+                UserId = userId
             };
 
-            await context.Cars.AddAsync(car);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(car);
+            await repo.SaveChangesAsync();
         }
 
-        public async Task Delete(int carID)
+        public async Task Delete(int carId)
         {
-            var entity =await context.Cars.FirstOrDefaultAsync(x => x.Id == carID);
+            var entity =await repo.GetByIdAsync<Car>(carId);
             entity.IsDeleted = true;
-            context.Update(entity);
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CarViewModel>> GetAll(string userID)
+        public async Task<IEnumerable<CarViewModel>> GetAll(string userId)
         {
-            var entities = await context.Cars
-                .Where(x => x.UserId == userID && !x.IsDeleted)
+            var entities = await repo.AllReadonly<Car>()
+                .Where(x => x.UserId == userId && !x.IsDeleted)
                 .ToListAsync();
 
             return entities
@@ -59,17 +56,15 @@ namespace MyCarStatistics.Services
                     Mileage = m.Mileage
                 });
         }
+               
 
-        public async Task<IEnumerable<Brand>> GetBrands() 
-           => await context.Brands.ToListAsync();        
-
-        public async Task<CarViewModel> GetCarInfo(int carID)
+        public async Task<CarViewModel> GetCarInfo(int carId)
         {
-            var entity = await context.Cars
-                .FirstOrDefaultAsync(x => x.Id == carID);
+            var entity = await repo.AllReadonly<Car>()
+                .FirstOrDefaultAsync(x => x.Id == carId);
             var car = new CarViewModel()
             { 
-                Id = carID,
+                Id = carId,
                 Brand = entity.Brand,
                 CarModel = entity.CarModel,
                 Mileage = entity.Mileage
@@ -77,72 +72,41 @@ namespace MyCarStatistics.Services
             return car;
         }
 
-        public async Task<OverviewModel> GetOverviewData(int carId, string userID)
+        public async Task<OverviewModel> GetOverviewData(int carId, string userId)
         {
-            // TODO 1 query
-
-            var carInfo = await context.Cars
-                .AsNoTracking()
-                .Where(x => x.UserId == userID || !x.IsDeleted)
-                .FirstOrDefaultAsync(x => x.Id == carId);
-
-            decimal income = context.Incomes.AsNoTracking()
-                .Where(x => x.CarId == carId)
-                .Sum(i => i.Earned);
-
-            decimal expenses = context.Expenses.AsNoTracking()
-                .Where(x => x.CarId == carId)
-                .Sum(e => e.Cost) ?? 0;
-
-            decimal refuels = context.Refuels.AsNoTracking()
-                .Where(x => x.CarId == carId)
-                .Sum(e => e.Cost) ?? 0;
-
-            int refuelCount = context.Refuels.AsNoTracking()
-                .Where(x => x.CarId == carId)
-                .Count();
-
-            decimal liters = context.Refuels.AsNoTracking()
-               .Where(x => x.CarId == carId)
-               .Sum(e => e.Liters);
-
-            decimal services = context.Services.AsNoTracking()
-                .Where(x => x.CarId == carId)
-                .Sum(e => e.Cost) ?? 0;
-
+            
+            var carInfo = await repo.AllReadonly<Car>()
+               .Where(x => x.UserId == userId || !x.IsDeleted)
+               .Include(r => r.Refuels)
+               .Include(e => e.Expenses)
+               .Include(i => i.Incomes)
+               .FirstOrDefaultAsync(x => x.Id == carId);
+           
             var overview = new OverviewModel()
             {
                 Id = carId,
                 CarModel = carInfo.CarModel,
                 Brand = carInfo.Brand,
                 Mileage = carInfo.Mileage,
-                MoneyEarned = income,
-                TotalCostRefuels = refuels,
-                TotalCostExpenses = expenses,
-                TotalCostServices = services,
-                TotalLiters = liters,
-                Refuels = refuelCount
+                MoneyEarned = carInfo.Incomes.Sum(i => i.Earned),
+                TotalCostRefuels = carInfo.Refuels.Sum(e => e.Cost) ?? 0,
+                TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost) ?? 0,
+                TotalCostServices = carInfo.Refuels.Sum(e => e.Cost) ?? 0,
+                TotalLiters = carInfo.Refuels.Sum(e => e.Liters),
+                Refuels = carInfo.Refuels.Count()
             };
 
             return overview;
-        }
-
-        public async Task ImportCars()
-        {
-            var brands = JsonDeserialize.MySeed();
-            await context.Brands.AddRangeAsync(brands);
-            await context.SaveChangesAsync();
-        }
+        }       
 
         public async Task SaveCar(CarViewModel model)
         {
-            var entity = context.Cars.Find(model.Id);
-            entity.Brand = sanitizer.Sanitize(model.Brand);
+            var entity = await repo.GetByIdAsync<Car>(model.Id);
+            entity.Brand = model.Brand;
             entity.Mileage = model.Mileage;
-            entity.CarModel = sanitizer.Sanitize(model.CarModel);
+            entity.CarModel = model.CarModel;
 
-            context.Cars.Update(entity);
-            await context.SaveChangesAsync();
+            await repo.SaveChangesAsync();
         }
     }
 }

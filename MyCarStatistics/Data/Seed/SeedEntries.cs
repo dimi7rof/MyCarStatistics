@@ -34,27 +34,20 @@ namespace MyCarStatistics.Data.Seed
             return users;
         }
 
-        public static List<Car> SeedCars(string userID)
-        {
-            List<Car> list = new List<Car>();
-            var car = new Car()
-            {
-                Brand = "Alfa",
-                CarModel = "147",
-                CreatedOn = DateTime.Now,
-                IsDeleted = false,
-                Mileage = 0,
-                UserId = userID
-            };
-            list.Add(car);
-
-
-
-
-
-
-
-            return list;
-        }
+        //public static List<Car> SeedCars(string userID)
+        //{
+        //    List<Car> list = new List<Car>();
+        //    var car = new Car()
+        //    {
+        //        Brand = "Alfa",
+        //        CarModel = "147",
+        //        CreatedOn = DateTime.Now,
+        //        IsDeleted = false,
+        //        Mileage = 0,
+        //        UserId = userID
+        //    };
+        //    list.Add(car);
+        //    return list;
+        //}
     }
 }

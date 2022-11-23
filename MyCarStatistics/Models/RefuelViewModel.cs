@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MyCarStatistics.Models
+﻿namespace MyCarStatistics.Models
 {
     public class RefuelViewModel
     {
@@ -14,14 +12,12 @@ namespace MyCarStatistics.Models
 
         public decimal Cost { get; set; }
 
-        public decimal DrivenKm { get; set; }
+        public decimal Trip { get; set; }
 
         public string? GasStation { get; set; }
 
-        //public bool IsDeleted { get; set; }
-
         public int CarId { get; set; }
 
-        //public List<CarViewModel> Cars { get; set; }
+        public DateTime Date { get; set; }
     }
 }

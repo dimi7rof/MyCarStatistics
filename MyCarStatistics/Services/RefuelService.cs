@@ -3,27 +3,30 @@ using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
+using MyCarStatistics.Repository;
 
 namespace MyCarStatistics.Services
 {
     public class RefuelService : IRefuelService
-    {
-        private readonly ApplicationDbContext context;
+    {        
+        private readonly IRepository repo;
 
-        public RefuelService(ApplicationDbContext _context)
+        public RefuelService(IRepository repo)
         {
-            context = _context;
+            this.repo = repo;
         }
-        
-        public Task Delete(string carId)
+
+        public async Task<int> Delete(int refId)
         {
-            throw new NotImplementedException();
+            var entity = await repo.GetByIdAsync<Refuel>(refId);
+            entity.IsDeleted = true;
+            await repo.SaveChangesAsync();
+            return entity.CarId;
         }
 
         public async Task<RefuelViewModel> GetCar(int carId)
         {
-            var entity = await context.Cars
-                .FirstOrDefaultAsync(x => x.Id == carId);
+            var entity = await repo.GetByIdAsync<Car>(carId);
             var car = new RefuelViewModel()
             {
                 CarId = carId,
@@ -35,20 +38,22 @@ namespace MyCarStatistics.Services
 
         public async Task<IEnumerable<RefuelViewModel>> GetRefuels(int carId)
         {
-            var entities = await context.Refuels
-                .Where(x => x.CarId == carId && !x.IsDeleted)
+            var car = await repo.GetByIdAsync<Car>(carId);
+            var entities = await repo.AllReadonly<Refuel>()
+                .Where(i => i.CarId == carId && !i.IsDeleted)
                 .ToListAsync();
 
             return entities
-                .Select(m => new RefuelViewModel()
+                .Select(r => new RefuelViewModel()
                 {
-                    Id = m.Id,
-                    CarModel = m.Car.CarModel,
-                    Brand = m.Car.Brand,
-                    Liters = m.Liters,
-                    Cost = m.Cost ?? 0,
-                    DrivenKm = m.DrivenKm ?? 0,
-                    GasStation = m.GasStation
+                    Id = r.Id,
+                    CarModel = car.CarModel,
+                    Brand = car.Brand,
+                    Liters = r.Liters,
+                    Cost = r.Cost ?? 0,
+                    Trip = r.Trip ?? 0,
+                    GasStation = r.GasStation ?? string.Empty,
+                    Date = r.Date
                 });
         }
 
@@ -58,14 +63,17 @@ namespace MyCarStatistics.Services
             {
                 Liters = model.Liters,
                 Cost = model.Cost,
-                DrivenKm = model.DrivenKm,
+                Trip = model.Trip,
                 GasStation = model.GasStation,
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId
             };
-            await context.Refuels.AddAsync(refuel);
-            await context.SaveChangesAsync();
+            await repo.AddAsync(refuel);
+            await repo.SaveChangesAsync();
+
         }
+
+        
     }
 }

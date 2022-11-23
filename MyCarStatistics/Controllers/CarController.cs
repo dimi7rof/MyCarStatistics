@@ -18,20 +18,22 @@ namespace MyCarStatistics.Controllers
             this.carService = carService;
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Overview(int carId)
         {
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await userManager.FindByNameAsync(User?.Identity?.Name);
             OverviewModel carOverview = await carService.GetOverviewData(carId, user.Id.ToString());
             return View(carOverview);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Edit(CarViewModel car, int carID)
+        public async Task<IActionResult> Edit(CarViewModel car, int carId)
         {
             if (car.Brand == null)
             {
-                var entity = await carService.GetCarInfo(carID);
+                var entity = await carService.GetCarInfo(carId);
                 return View(entity);
             }
 
@@ -39,10 +41,11 @@ namespace MyCarStatistics.Controllers
             return RedirectToAction(nameof(All));
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Delete(int carID)
+        public async Task<IActionResult> Delete(int carId)
         {
-            await carService.Delete(carID);
+            await carService.Delete(carId);
             return RedirectToAction(nameof(All));
         }
 
@@ -55,10 +58,9 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddCar()
+        public IActionResult AddCar()
         {
             var car = new CarViewModel();
-            //ViewBag.Brands = carService.GetBrands();
             return View(car);
         }
 
@@ -69,7 +71,7 @@ namespace MyCarStatistics.Controllers
             {
                 return View(car);
             }
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = await userManager.FindByNameAsync(User?.Identity?.Name);
             await carService.Add(car, user.Id.ToString());
 
             return RedirectToAction(nameof(All));
@@ -80,10 +82,13 @@ namespace MyCarStatistics.Controllers
             => Ok();
 
 
-        [HttpGet]
-        public async Task<IActionResult> Import()
+        private async Task<IActionResult> CheckUser(int carId)
         {
-            await carService.ImportCars();
+            ApplicationUser user = await userManager.FindByNameAsync(User?.Identity?.Name);
+
+
+
+
             return RedirectToAction(nameof(All));
         }
     }

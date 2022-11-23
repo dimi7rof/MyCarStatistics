@@ -19,43 +19,39 @@ namespace MyCarStatistics.Controllers
             this.carService = carService;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Refuel(int CarId)
+        public async Task<IActionResult> Refuel(int carId)
         {
-            //var user = await userManager.FindByNameAsync(User.Identity.Name);
-            //var userId = user.Id.ToString();
-            //var allCars = await carService.GetAll(userId);
-            //var refuel = new RefuelViewModel()
-            //{
-            //    Cars = allCars.ToList()
-            //};
-            var model = await refuelService.GetCar(CarId);
+            var model = await refuelService.GetCar(carId);
             return View(model);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> Refuel(RefuelViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            
+            if (!ModelState.IsValid) return View(model);
             await refuelService.Refuel(model);
-
-            return RedirectToAction("All");
+            return RedirectToAction(nameof(All), model.CarId);
         }
+
+
+        [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
             var allRefuels = await refuelService.GetRefuels(carId);
-            ViewBag.AllLiters = allRefuels.Sum(r => r.Liters);
-            ViewBag.AllCost = allRefuels.Sum(r => r.Cost);
-            ViewBag.AllKm = allRefuels.Sum(r => r.DrivenKm);
+            ViewBag.Id = carId;
             return View(allRefuels);
         }
 
-        public IActionResult Index()
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int refId)
         {
-            return View();
+            var carId = await refuelService.Delete(refId);
+            return RedirectToAction(nameof(All), carId);
         }
+
     }
 }
