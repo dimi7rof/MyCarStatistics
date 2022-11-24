@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
-using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
@@ -27,7 +26,6 @@ namespace MyCarStatistics.Controllers
             return View(carOverview);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Edit(CarViewModel car, int carId)
         {
@@ -40,7 +38,6 @@ namespace MyCarStatistics.Controllers
             await carService.SaveCar(car);
             return RedirectToAction(nameof(All));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Delete(int carId)

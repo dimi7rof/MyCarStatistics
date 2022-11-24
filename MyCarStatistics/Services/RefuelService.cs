@@ -57,7 +57,7 @@ namespace MyCarStatistics.Services
                 });
         }
 
-        public async Task Refuel(RefuelViewModel model)
+        public async Task AddRefuel(RefuelViewModel model)
         {
             var refuel = new Refuel()
             {

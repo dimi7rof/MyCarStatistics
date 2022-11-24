@@ -7,18 +7,13 @@ using MyCarStatistics.Models;
 namespace MyCarStatistics.Controllers
 {
     public class RefuelController : BaseController
-    {
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly IRefuelService refuelService;
-        private readonly ICarService carService;
+    {        
+        private readonly IRefuelService refuelService;        
 
-        public RefuelController(UserManager<ApplicationUser> userManager, IRefuelService refuelService, ICarService carService)
+        public RefuelController(IRefuelService refuelService)
         {
-            this.userManager = userManager;
             this.refuelService = refuelService;
-            this.carService = carService;
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Refuel(int carId)
@@ -32,7 +27,7 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> Refuel(RefuelViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            await refuelService.Refuel(model);
+            await refuelService.AddRefuel(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
 
