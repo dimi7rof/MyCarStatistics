@@ -72,11 +72,11 @@ namespace MyCarStatistics.Services
             return car;
         }
 
-        public async Task<OverviewModel> GetOverviewData(int carId, string userId)
+        public async Task<OverviewModel> GetOverviewData(int carId)
         {
             
             var carInfo = await repo.AllReadonly<Car>()
-               .Where(x => x.UserId == userId || !x.IsDeleted)
+               .Where(x => !x.IsDeleted)
                .Include(r => r.Refuels)
                .Include(e => e.Expenses)
                .Include(i => i.Incomes)

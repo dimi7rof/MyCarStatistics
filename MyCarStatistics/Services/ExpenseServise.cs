@@ -20,7 +20,7 @@ namespace MyCarStatistics.Services
             var expense = new Expense()
             {
                 Cost= model.Cost,
-                CurrentKm= model.CurrentKm,
+                Trip = model.Trip,
                 Description= model.Description,
                 Date = DateTime.Now,
                 IsDeleted = false,
@@ -66,8 +66,7 @@ namespace MyCarStatistics.Services
                     Cost = r.Cost ?? 0,
                     Date = r.Date,
                     Description= r.Description,
-                    CarId= carId,
-                    CurrentKm= r.CurrentKm
+                    CarId= carId
                 });
         }
     }

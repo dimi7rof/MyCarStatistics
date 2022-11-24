@@ -11,7 +11,7 @@ namespace MyCarStatistics.Contracts
 
         Task Delete(int carId);
        
-        Task<OverviewModel> GetOverviewData(int carId, string userId);
+        Task<OverviewModel> GetOverviewData(int carId);
 
         Task<CarViewModel> GetCarInfo(int carId);
 

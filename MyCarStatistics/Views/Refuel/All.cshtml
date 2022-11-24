@@ -8,11 +8,11 @@
 
 <div class="text-center row">
     <div class="form-row align-items-center">
-        <a asp-area="" asp-controller="Car" asp-action="Overview">
-            <input type="submit" value="Back to Overview" class="fs-6 btn btn-primary mb-3 p-2" />
-        </a>
+        <form class="input-group-sm" asp-route-carId="@ViewBag.Id" asp-controller="Car" asp-action="Overview" method="post">
+            <input type="submit" value="Back" class="fs-6 btn btn-success mb-3 p-2" />
+        </form>
         <a asp-route-carId="@ViewBag.Id" asp-area="" asp-controller="Refuel" asp-action="Refuel">
-            <input type="submit" value="Refuel" class="fs-6 btn btn-primary mb-3 p-2" />
+            <input type="submit" value="Add Refuel" class="fs-6 btn btn-primary mb-3 p-2" />
         </a>
     </div>
     <table class="table">
