@@ -6,11 +6,11 @@ using MyCarStatistics.Repository;
 
 namespace MyCarStatistics.Services
 {
-    public class ExpenseServise : IExpenseService
+    public class ExpenseService : IExpenseService
     {
         private readonly IRepository repo;
 
-        public ExpenseServise(IRepository repo)
+        public ExpenseService(IRepository repo)
         {
             this.repo = repo;
         }

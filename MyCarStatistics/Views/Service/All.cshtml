@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ExpenseViewModel>
+﻿@model IEnumerable<ServiceViewModel>
 
 @{
-    ViewData["Title"] = "All Expenses";
+    ViewData["Title"] = "All Services";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
@@ -12,8 +12,8 @@
             <input type="submit" value="Back" class="fs-6 btn btn-success mb-3 p-2" />
         </form>
 
-        <a asp-route-carId="@ViewBag.Id" asp-area="" asp-controller="Expense" asp-action="Add">
-            <input type="submit" value="Add Expense" class="fs-6 btn btn-primary mb-3 p-2" />
+        <a asp-route-carId="@ViewBag.Id" asp-area="" asp-controller="Service" asp-action="Add">
+            <input type="submit" value="Add Service" class="fs-6 btn btn-primary mb-3 p-2" />
         </a>
     </div>
     <table class="table">
@@ -36,7 +36,7 @@
                 <th class="col-2 mt-2" scope="col">Brand</th>
                 <th class="col-2 mt-2" scope="col">Model</th>
                 <th class="col-2 mt-2" scope="col">Date</th>
-                <th class="col-1 mt-2" scope="col">Trip</th>
+                <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col">Cost</th>
                 <th class="col-1 mt-2" scope="col">Description</th>
                 <th class="col-2 mt-2" scope="col"></th>
@@ -50,12 +50,12 @@
                     <td>@each.Brand</td>
                     <td>@each.CarModel</td>
                     <td>@each.Date</td>
-                    <td>@each.Trip</td>
+                    <td></td>
                     <td>@each.Cost</td>
                     <td>@each.Description</td>
                     <td></td>
                     <td>
-                        <form class="input-group-sm" asp-route-expenceId="@each.Id" asp-controller="Expense" asp-action="Delete" method="post">
+                        <form class="input-group-sm" asp-route-serviceId="@each.Id" asp-controller="Service" asp-action="Delete" method="post">
                             <input type="submit" value="Delete" class="fs-6 btn btn-danger mb-3 p-2" />
                         </form>
                     </td>

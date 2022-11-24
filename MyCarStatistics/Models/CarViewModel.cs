@@ -14,5 +14,9 @@ namespace MyCarStatistics.Models
 
         public decimal? Mileage { get; set; }
 
+        public decimal? Spend { get; set; }
+
+        public decimal? Earned { get; set; }
+
     }
 }

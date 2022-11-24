@@ -4,28 +4,28 @@ using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers
 {
-    public class ExpenseController : BaseController
+    public class IncomeController : Controller
     {
-        private readonly IExpenseService expenseService;
+        private readonly IIncomeService incomeServise;
 
-        public ExpenseController(IExpenseService _expenseService)
+        public IncomeController(IIncomeService _incomeServise)
         {
-            this.expenseService = _expenseService;
+            incomeServise = _incomeServise;
         }
 
         [HttpGet]
         public async Task<IActionResult> Add(int carId)
         {
-            var model = await expenseService.GetCar(carId);
+            var model = await incomeServise.GetCar(carId);
             return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Add(ExpenseViewModel model)
+        public async Task<IActionResult> Add(IncomeViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            await expenseService.AddExpense(model);
+            await incomeServise.AddIncome(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
 
@@ -33,17 +33,18 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            var all = await expenseService.GetExpenses(carId);
+            var all = await incomeServise.GetIncomes(carId);
             ViewBag.Id = carId;
             return View(all);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int expenceId)
+        public async Task<IActionResult> Delete(int incomeId)
         {
-            var carId = await expenseService.Delete(expenceId);
+            var carId = await incomeServise.Delete(incomeId);
             return RedirectToAction(nameof(All), carId);
         }
+
     }
 }

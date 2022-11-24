@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
-using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers

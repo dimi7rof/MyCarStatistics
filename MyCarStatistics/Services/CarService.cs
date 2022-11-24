@@ -47,6 +47,8 @@ namespace MyCarStatistics.Services
                 .Where(x => x.UserId == userId && !x.IsDeleted)
                 .ToListAsync();
 
+            
+
             return entities
                 .Select(m => new CarViewModel()
                 {
@@ -54,6 +56,11 @@ namespace MyCarStatistics.Services
                     CarModel = m.CarModel,
                     Brand = m.Brand,
                     Mileage = m.Mileage
+                    //,
+                    //Spend = m.Refuels.Sum(r => r.Cost)
+                    //        + m.Services.Sum(r => r.Cost)
+                    //        + m.Expenses.Sum(r => r.Cost),
+                    //Earned = m.Incomes.Sum(r => r.Earned)
                 });
         }
                

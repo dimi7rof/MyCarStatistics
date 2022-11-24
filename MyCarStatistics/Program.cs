@@ -28,7 +28,9 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IRefuelService, RefuelService>();
-builder.Services.AddScoped<IExpenseService, ExpenseServise>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<IIncomeService, IncomeService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IRepository, Repository>();
 

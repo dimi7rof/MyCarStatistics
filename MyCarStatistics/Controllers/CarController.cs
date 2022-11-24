@@ -20,9 +20,7 @@ namespace MyCarStatistics.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Overview(int carId)
-        {
-            var user = await userManager.FindByNameAsync(User?.Identity?.Name);
-            //OverviewModel carOverview = await carService.GetOverviewData(carId, user.Id.ToString());
+        {            
             var carOverview = await carService.GetOverviewData(carId);
             return View(carOverview);
         }
