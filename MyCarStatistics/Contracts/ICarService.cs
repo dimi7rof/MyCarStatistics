@@ -17,5 +17,7 @@ namespace MyCarStatistics.Contracts
 
         Task SaveCar(CarViewModel model);
 
+        Task<bool> CheckUser(int carId, string userId);
+
     }
 }

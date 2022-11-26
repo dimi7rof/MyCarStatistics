@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
-using MyCarStatistics.Data.Seed;
+using static MyCarStatistics.Data.Configuration.UserConfig;
 
 namespace MyCarStatistics.Data
 {
@@ -21,7 +21,9 @@ namespace MyCarStatistics.Data
        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {     
+        {
+            //modelBuilder.ApplyConfiguration(new UserConfiguration());
+
             base.OnModelCreating(modelBuilder);            
         }
        

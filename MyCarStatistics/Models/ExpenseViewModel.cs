@@ -7,7 +7,7 @@
 
         public string? CarModel { get; set; }
 
-        public decimal? Cost { get; set; }
+        public decimal Cost { get; set; }
 
         public decimal? Trip { get; set; }
 

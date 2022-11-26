@@ -8,7 +8,7 @@ namespace MyCarStatistics.Data.Models
         [Key]
         public int Id { get; set; }
 
-        public decimal? Cost { get; set; }
+        public decimal Cost { get; set; }
 
         public decimal? Trip { get; set; }
 

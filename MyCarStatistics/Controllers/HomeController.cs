@@ -21,13 +21,8 @@ namespace MyCarStatistics.Controllers
                 return RedirectToAction("All", "Car");
             }
 
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            return RedirectToAction("Login", "User");
+        }        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

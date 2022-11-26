@@ -13,7 +13,7 @@ namespace MyCarStatistics.Data.Models.Account
 
         public bool IsDeleted { get; set; } = false;
 
-        public ICollection<Car> Cars { get; set; } = new List<Car>();
+        public List<Car> Cars { get; set; } = new List<Car>();
 
     }
 }

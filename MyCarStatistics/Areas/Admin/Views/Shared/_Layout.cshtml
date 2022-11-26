@@ -22,7 +22,7 @@
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">My Cars</a>
+                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="All">All Cars</a>
                             </li>                            
                         }
                         @if (User?.IsInRole("Admin") ?? false)

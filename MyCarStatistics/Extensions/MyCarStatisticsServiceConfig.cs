@@ -9,12 +9,13 @@ namespace MyCarStatistics.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IRefuelService, RefuelService>();
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<ICarService, CarService>();
             services.AddScoped<IExpenseService, ExpenseService>();
             services.AddScoped<IIncomeService, IncomeService>();
+            services.AddScoped<IRefuelService, RefuelService>();
             services.AddScoped<IServiceService, ServiceService>();
-            services.AddScoped<ICarService, CarService>();
-            services.AddScoped<IRepository, Repository>();
 
             return services;
         }

@@ -63,7 +63,7 @@ namespace MyCarStatistics.Services
                     Id = r.Id,
                     CarModel = car.CarModel,
                     Brand = car.Brand,
-                    Cost = r.Cost ?? 0,
+                    Cost = r.Cost,
                     Date = r.Date,
                     Description= r.Description,
                     CarId= carId

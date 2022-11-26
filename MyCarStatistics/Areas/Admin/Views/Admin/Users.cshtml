@@ -1,0 +1,55 @@
+﻿@model IEnumerable<UserViewModel>
+
+@{
+    ViewData["Title"] = "My Cars";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<div class="text-center row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-2 mt-2" scope="col">Id</th>
+                <th class="col-2 mt-2" scope="col">UserName</th>
+                <th class="col-2 mt-2" scope="col">Email</th>
+                <th class="col-2 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @if(!(user.IsAdmin))
+                        {
+                        <form class="input-group-sm" asp-area="Admin" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeAdmin" method="post">
+                            <input type="submit" value="MakeAdmin" class="fs-6 btn btn-warning mb-3 p-2" />
+                        </form>
+                        }
+                    </td>                   
+                    <td>
+                        @if (user.IsAdmin)
+                        {
+                            <form class="input-group-sm" asp-area="Admin" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeUser" method="post">
+                                <input type="submit" value="MakeUser" class="fs-6 btn btn-success mb-3 p-2" />
+                            </form>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -50,7 +50,7 @@ namespace MyCarStatistics.Services
                     CarModel = car.CarModel,
                     Brand = car.Brand,
                     Liters = r.Liters,
-                    Cost = r.Cost ?? 0,
+                    Cost = r.Cost,
                     Trip = r.Trip ?? 0,
                     GasStation = r.GasStation ?? string.Empty,
                     Date = r.Date

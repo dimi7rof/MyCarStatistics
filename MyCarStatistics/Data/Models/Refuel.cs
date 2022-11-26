@@ -11,7 +11,7 @@ namespace MyCarStatistics.Data.Models
         [Required]
         public decimal Liters { get; set; }
 
-        public decimal? Cost { get; set; }
+        public decimal Cost { get; set; }
 
         public decimal? Trip { get; set; }
 

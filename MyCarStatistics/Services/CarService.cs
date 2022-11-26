@@ -10,7 +10,6 @@ namespace MyCarStatistics.Services
     {
         
         private readonly IRepository repo;
-        //private readonly HtmlSanitizer sanitizer;
 
         public CarService(IRepository repo)
         {
@@ -47,8 +46,6 @@ namespace MyCarStatistics.Services
                 .Where(x => x.UserId == userId && !x.IsDeleted)
                 .ToListAsync();
 
-            
-
             return entities
                 .Select(m => new CarViewModel()
                 {
@@ -56,11 +53,6 @@ namespace MyCarStatistics.Services
                     CarModel = m.CarModel,
                     Brand = m.Brand,
                     Mileage = m.Mileage
-                    //,
-                    //Spend = m.Refuels.Sum(r => r.Cost)
-                    //        + m.Services.Sum(r => r.Cost)
-                    //        + m.Expenses.Sum(r => r.Cost),
-                    //Earned = m.Incomes.Sum(r => r.Earned)
                 });
         }
                
@@ -88,6 +80,7 @@ namespace MyCarStatistics.Services
                .Include(e => e.Expenses)
                .Include(i => i.Incomes)
                .FirstOrDefaultAsync(x => x.Id == carId);
+
            
             var overview = new OverviewModel()
             {
@@ -96,9 +89,9 @@ namespace MyCarStatistics.Services
                 Brand = carInfo.Brand,
                 Mileage = carInfo.Mileage,
                 MoneyEarned = carInfo.Incomes.Sum(i => i.Earned),
-                TotalCostRefuels = carInfo.Refuels.Sum(e => e.Cost) ?? 0,
-                TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost) ?? 0,
-                TotalCostServices = carInfo.Refuels.Sum(e => e.Cost) ?? 0,
+                TotalCostRefuels = carInfo.Refuels.Sum(e => e.Cost),
+                TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost),
+                TotalCostServices = carInfo.Refuels.Sum(e => e.Cost),
                 TotalLiters = carInfo.Refuels.Sum(e => e.Liters),
                 Refuels = carInfo.Refuels.Count()
             };
@@ -114,6 +107,12 @@ namespace MyCarStatistics.Services
             entity.CarModel = model.CarModel;
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckUser(int carId, string userId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+            return car.UserId.Equals(userId);
         }
     }
 }

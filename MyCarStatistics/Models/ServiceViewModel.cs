@@ -8,7 +8,7 @@
 
         public string? CarModel { get; set; }
 
-        public decimal? Cost { get; set; }
+        public decimal Cost { get; set; }
 
         public decimal? CurrentMillage { get; set; }
 
