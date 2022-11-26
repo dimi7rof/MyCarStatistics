@@ -3,7 +3,7 @@ using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
-using MyCarStatistics.Repository;
+using MyCarStatistics.Repositories;
 
 namespace MyCarStatistics.Services
 {

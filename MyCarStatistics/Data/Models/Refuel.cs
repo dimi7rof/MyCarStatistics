@@ -15,6 +15,8 @@ namespace MyCarStatistics.Data.Models
 
         public decimal? Trip { get; set; }
 
+
+        [StringLength(20)]
         public string? GasStation { get; set; }
 
         public DateTime Date { get; set; }

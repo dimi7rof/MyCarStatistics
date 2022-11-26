@@ -1,7 +1,4 @@
-﻿using MyCarStatistics.Controllers;
-using MyCarStatistics.Data.Models;
-using MyCarStatistics.Data.Models.Account;
-using MyCarStatistics.Models;
+﻿using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Data.Seed
 {
@@ -30,24 +27,15 @@ namespace MyCarStatistics.Data.Seed
                 Email = "user03@abv.bg",
                 Password = "User03!"
             };
-            users.Add(user3);
+            users.Add(user3);   
+            RegisterViewModel user4 = new RegisterViewModel()
+            {
+                UserName = "admin",
+                Email = "admin@abv.bg",
+                Password = "Admin1!"
+            };
+            users.Add(user4);
             return users;
-        }
-
-        //public static List<Car> SeedCars(string userID)
-        //{
-        //    List<Car> list = new List<Car>();
-        //    var car = new Car()
-        //    {
-        //        Brand = "Alfa",
-        //        CarModel = "147",
-        //        CreatedOn = DateTime.Now,
-        //        IsDeleted = false,
-        //        Mileage = 0,
-        //        UserId = userID
-        //    };
-        //    list.Add(car);
-        //    return list;
-        //}
+        }        
     }
 }

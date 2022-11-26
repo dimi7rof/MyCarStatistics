@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models.Account;
-using MyCarStatistics.Repository;
-using MyCarStatistics.Services;
+using MyCarStatistics.Extensions;
+using MyCarStatistics.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder
@@ -23,16 +22,16 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+    });
 
-builder.Services.AddScoped<IRefuelService, RefuelService>();
-builder.Services.AddScoped<IExpenseService, ExpenseService>();
-builder.Services.AddScoped<IIncomeService, IncomeService>();
-builder.Services.AddScoped<IServiceService, ServiceService>();
-builder.Services.AddScoped<ICarService, CarService>();
-builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddApplicationServices();
 
 
 
@@ -52,9 +51,18 @@ app.UseAuthentication(); ;
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "default",
+      pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );   
+});
 
 app.Run();
 

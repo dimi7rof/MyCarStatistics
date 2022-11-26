@@ -11,6 +11,7 @@ namespace MyCarStatistics.Data.Models
         [Required]
         public decimal Earned { get; set; }
 
+        [StringLength(50)]
         public string? Description { get; set; }
 
         public DateTime Date { get; set; }

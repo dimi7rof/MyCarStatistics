@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
+using MyCarStatistics.Data.Seed;
 
 namespace MyCarStatistics.Data
 {
@@ -21,7 +22,7 @@ namespace MyCarStatistics.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {     
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);            
         }
        
     }

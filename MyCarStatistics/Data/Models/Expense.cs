@@ -12,6 +12,7 @@ namespace MyCarStatistics.Data.Models
 
         public decimal? Trip { get; set; }
 
+        [StringLength(50)]
         public string? Description { get; set; }
 
         public DateTime Date { get; set; }

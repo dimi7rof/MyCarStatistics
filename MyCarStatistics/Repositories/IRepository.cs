@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 
-namespace MyCarStatistics.Repository
+namespace MyCarStatistics.Repositories
+
 
 {
     /// <summary>

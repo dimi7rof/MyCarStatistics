@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MyCarStatistics.Data;
 using System.Linq.Expressions;
 
-namespace MyCarStatistics.Repository
+namespace MyCarStatistics.Repositories
 {
     /// <summary>
     /// Implementation of repository access methods
