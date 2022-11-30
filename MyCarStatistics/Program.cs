@@ -26,14 +26,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews()
-    .AddMvcOptions(options =>
-    {
-        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
-    });
+    .AddMvcOptions(options 
+    => options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
 
 builder.Services.AddApplicationServices();
-
-
+//builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -47,21 +44,23 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication(); ;
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+//app.UseResponseCaching();
 
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-      name: "default",
-      pattern: "{controller=Home}/{action=Index}/{id?}"
-    );
+       name: "default",
+       pattern: "{controller=Home}/{action=Index}/{id?}"
+     );
 
     endpoints.MapControllerRoute(
       name: "areas",
-      pattern: "{area:exists}/{controller=Car}/{action=All}/{id?}"
-    );   
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
 });
 
 app.Run();

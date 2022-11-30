@@ -30,8 +30,9 @@ namespace MyCarStatistics.Services
                     Id = m.Id,
                     CarModel = m.CarModel,
                     Brand = m.Brand,
-                    Mileage = m.Mileage,
-                    User = m.User.UserName
+                    Mileage = m.Mileage
+                    // TODO FIX
+                    //,User = m.User.UserName
                 });
         }
 
