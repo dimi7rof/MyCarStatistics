@@ -82,7 +82,7 @@ namespace MyCarStatistics.Controllers
         {
             if (!ModelState.IsValid)
             { 
-            View(model);
+                View(model);
             }
 
             var user = await userManager.FindByEmailAsync(model.Email);
