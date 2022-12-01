@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
-namespace MyCarStatistics.Areas.Admin.Controllers
+namespace MyCarStatistics.Areas.Administrator.Controllers
 {
-    [Area("Admin")]
-    [Route("Admin/[controller]/[Action]/{id?}")]
+    [Area("Administrator")]
+    [Route("Administrator/[controller]/[Action]/{id?}")]
     [Authorize(Roles = "Admin")]
     public class BaseController : Controller
     {
-        
+
     }
 }

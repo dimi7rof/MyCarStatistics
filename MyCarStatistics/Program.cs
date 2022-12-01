@@ -30,7 +30,7 @@ builder.Services.AddControllersWithViews()
     => options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
 
 builder.Services.AddApplicationServices();
-//builder.Services.AddResponseCaching();
+builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
@@ -48,7 +48,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-//app.UseResponseCaching();
+app.UseResponseCaching();
 
 app.UseEndpoints(endpoints =>
 {

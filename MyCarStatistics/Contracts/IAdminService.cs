@@ -5,10 +5,10 @@ namespace MyCarStatistics.Contracts
 {
     public interface IAdminService
     {
-        IEnumerable<UserViewModel> GetUsers();
+        Task<IEnumerable<UserViewModel>> GetUsers();
 
         Task<ApplicationUser> GetUser(string userId);
 
-        Task<IEnumerable<CarViewModel>> GetAll();
+        Task<IEnumerable<CarViewModel>> GetAllCars();
     }
 }

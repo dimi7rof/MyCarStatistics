@@ -6,8 +6,7 @@
     <title>@ViewData["Title"] - MyCarStatistics</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ToDiCarInfo102022.styles.css" asp-append-version="true" />
-    <link rel="shortcut icon" href="./favicon.png" type="image">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -19,17 +18,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">                        
-                        @if (User?.Identity?.IsAuthenticated ?? false)
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User?.IsInRole("Admin") ?? false)
+                        {
+                            <li class="nav-item border-bottom box-shadow mb-3">
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Administrator" asp-action="Index">Administration</a>
+                            </li>
+                        }
+                        else if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">My Cars</a>
-                            </li>                            
-                        }
-                        @if (User?.IsInRole("Admin") ?? false)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="Users">Users</a>
                             </li>
                         }
                     </ul>

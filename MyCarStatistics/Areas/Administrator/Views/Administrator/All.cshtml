@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CarViewModel>
 
 @{
-    ViewData["Title"] = "My Cars";
+    ViewData["Title"] = "All Cars";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
@@ -14,15 +14,11 @@
                 <th class="col-2 mt-2" scope="col">Brand</th>
                 <th class="col-2 mt-2" scope="col">Model</th>
                 <th class="col-2 mt-2" scope="col">Mileage</th>
-                <th class="col-2 mt-2" scope="col">Spend</th>
-                <th class="col-1 mt-2" scope="col">Earned</th>
+                <th class="col-2 mt-2" scope="col">User</th>
                 <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
-                <th class="col-1 mt-2" scope="col">
-                    <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Add">Add car</a>
-                    </div>
-                </th>
+                <th class="col-1 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
             </tr>
         </thead>
         <tbody>

@@ -25,7 +25,7 @@ namespace MyCarStatistics.Controllers
         public IActionResult Register()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
-            {
+            { 
                 return RedirectToAction("Index", "Home");
             }
 
@@ -81,8 +81,8 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-            {
-                return View(model);
+            { 
+            View(model);
             }
 
             var user = await userManager.FindByEmailAsync(model.Email);
@@ -93,7 +93,7 @@ namespace MyCarStatistics.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    RedirectToAction("All", "Car");
                 }
             }
 

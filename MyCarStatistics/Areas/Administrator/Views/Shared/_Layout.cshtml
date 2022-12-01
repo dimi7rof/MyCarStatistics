@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - MyCarStatistics</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ToDiCarInfo102022.styles.css" asp-append-version="true" />
+    <link rel="shortcut icon" href="./adminicon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -22,10 +22,10 @@
                         @if (User?.IsInRole("Admin") ?? false)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="All">All Cars</a>
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Administrator" asp-action="All">All Cars</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Admin" asp-action="Users">Users</a>
+                                <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Administrator" asp-action="Users">All Users</a>
                             </li>
                         }
                     </ul>

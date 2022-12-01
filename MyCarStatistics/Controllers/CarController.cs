@@ -23,42 +23,59 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> Overview(int carId)
         {
             var user = await userManager.FindByNameAsync(User?.Identity?.Name);
-            if ((await carService.CheckUser(carId, user.Id.ToString())) == false)
+            if (await userManager.IsInRoleAsync(user, "Admin"))
             {
-                return RedirectToAction("AccessDenied", "Car");
+                var carOverview = await carService.GetOverviewData(carId);
+                return View(carOverview);
             }
-            var carOverview = await carService.GetOverviewData(carId);
-            return View(carOverview);
+            if ((await carService.CheckUser(carId, user.Id.ToString())) == true)
+            {
+                var carOverview = await carService.GetOverviewData(carId);
+                return View(carOverview);
+            }
+            
+            return RedirectToAction("AccessDenied", "Car");
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(CarViewModel car, int carId)
         {
             var user = await userManager.FindByNameAsync(User?.Identity?.Name);
-            if ((await carService.CheckUser(carId, user.Id.ToString())) == false)
-            {
-                return RedirectToAction("AccessDenied", "Car");
-            }
             if (!ModelState.IsValid)
             {
                 var entity = await carService.GetCarInfo(carId);
                 return View(entity);
             }
+            if (await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                await carService.SaveCar(car);
+                return RedirectToAction(nameof(All));
+            }
+            if ((await carService.CheckUser(carId, user.Id.ToString())) == true)
+            {
+                await carService.SaveCar(car);
+                return RedirectToAction(nameof(All));
+            }
 
-            await carService.SaveCar(car);
-            return RedirectToAction(nameof(All));
+            return RedirectToAction("AccessDenied", "Car");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int carId)
         {
             var user = await userManager.FindByNameAsync(User?.Identity?.Name);
-            if ((await carService.CheckUser(carId, user.Id.ToString())) == false)
+            if ( await userManager.IsInRoleAsync(user, "Admin"))
             {
-                return RedirectToAction("AccessDenied", "Car");
+                await carService.Delete(carId);
+                return RedirectToAction(nameof(All));
             }
-            await carService.Delete(carId);
-            return RedirectToAction(nameof(All));
+            if ((await carService.CheckUser(carId, user.Id.ToString())) == true)
+            {
+                await carService.Delete(carId);
+                return RedirectToAction(nameof(All));
+            }
+           
+            return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpGet]
@@ -89,14 +106,12 @@ namespace MyCarStatistics.Controllers
             return RedirectToAction(nameof(All));
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult Index()
-            => View();
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public IActionResult Index()
+        //    => View();
 
-        [HttpGet]
-        public IActionResult AccessDenied()
-                => View();
+       
 
         
     }

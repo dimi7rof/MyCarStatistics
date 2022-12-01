@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<UserViewModel>
 
 @{
-    ViewData["Title"] = "My Cars";
+    ViewData["Title"] = "Administration";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
+<h1 class="text-center">All Users</h1>
 
 
 <div class="text-center row">
     <table class="table">
         <thead>
             <tr>
-                <th class="col-2 mt-2" scope="col">Id</th>
+                <th class="col-3 mt-2" scope="col">Id</th>
                 <th class="col-2 mt-2" scope="col">UserName</th>
                 <th class="col-2 mt-2" scope="col">Email</th>
-                <th class="col-2 mt-2" scope="col"></th>
+                <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
@@ -34,7 +34,7 @@
                     <td>
                         @if(!(user.IsAdmin))
                         {
-                        <form class="input-group-sm" asp-area="Admin" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeAdmin" method="post">
+                        <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeAdmin" method="post">
                             <input type="submit" value="MakeAdmin" class="fs-6 btn btn-warning mb-3 p-2" />
                         </form>
                         }
@@ -42,7 +42,7 @@
                     <td>
                         @if (user.IsAdmin)
                         {
-                            <form class="input-group-sm" asp-area="Admin" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeUser" method="post">
+                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeUser" method="post">
                                 <input type="submit" value="MakeUser" class="fs-6 btn btn-success mb-3 p-2" />
                             </form>
                         }
