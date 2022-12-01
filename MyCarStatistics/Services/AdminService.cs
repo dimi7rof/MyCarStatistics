@@ -37,9 +37,7 @@ namespace MyCarStatistics.Services
         }
 
         public Task<ApplicationUser> GetUser(string userId)
-        {
-           return repo.GetByIdAsync<ApplicationUser>(userId);
-        }
+            => repo.GetByIdAsync<ApplicationUser>(userId);        
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
@@ -49,12 +47,10 @@ namespace MyCarStatistics.Services
                 UserName = u.UserName,
                 Email = u.Email,
                 Id = u.Id,
-                IsAdminAsync = userManager.IsInRoleAsync(u, "Admin")
-             });
+                IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
+            });
 
             return users;
-        }
-
-       
+        }       
     }
 }

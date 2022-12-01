@@ -16,6 +16,5 @@ namespace MyCarStatistics.Models
 
         public bool IsAdmin { get; set; }
 
-        public Task<bool>? IsAdminAsync { get; set; }
     }
 }

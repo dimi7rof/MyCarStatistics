@@ -33,7 +33,7 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         {
             var user = await adminService.GetUser(userID);
             await userManager.AddToRoleAsync(user, "Admin");
-            return RedirectToAction("Users", "Admin");
+            return RedirectToAction("Users", "Administrator");
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         {
             var user = await adminService.GetUser(userID);
             await userManager.RemoveFromRoleAsync(user, "Admin");
-            return RedirectToAction("Users", "Admin");
+            return RedirectToAction("Users", "Administrator");
         }
 
         [HttpGet]

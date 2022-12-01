@@ -93,7 +93,7 @@ namespace MyCarStatistics.Controllers
 
                 if (result.Succeeded)
                 {
-                    RedirectToAction("All", "Car");
+                    return RedirectToAction("All", "Car");
                 }
             }
 

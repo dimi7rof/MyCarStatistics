@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using MyCarStatistics.Data.Models.Account;
+using MyCarStatistics.Common;
 
 namespace MyCarStatistics.Data.Models
 {
@@ -10,11 +11,11 @@ namespace MyCarStatistics.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50)]
+        [StringLength(EntityConstants.CarBrandStringLenght)]
         public string Brand { get; set; } = null!;
 
         [Required]
-        [StringLength(50)]
+        [StringLength(EntityConstants.CarModelStringLenght)]
         public string CarModel { get; set; } = null!;
 
         public decimal? Mileage { get; set; }

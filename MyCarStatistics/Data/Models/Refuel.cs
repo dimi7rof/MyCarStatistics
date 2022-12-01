@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MyCarStatistics.Common;
 
 namespace MyCarStatistics.Data.Models
 {
@@ -16,7 +17,7 @@ namespace MyCarStatistics.Data.Models
         public decimal? Trip { get; set; }
 
 
-        [StringLength(20)]
+        [StringLength(EntityConstants.GasStationStringLenght)]
         public string? GasStation { get; set; }
 
         public DateTime Date { get; set; }

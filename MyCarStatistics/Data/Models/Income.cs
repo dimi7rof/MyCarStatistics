@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using MyCarStatistics.Common;
 
 namespace MyCarStatistics.Data.Models
 {
@@ -11,7 +12,7 @@ namespace MyCarStatistics.Data.Models
         [Required]
         public decimal Earned { get; set; }
 
-        [StringLength(50)]
+        [StringLength(EntityConstants.IncomeDescriptionStringLenght)]
         public string? Description { get; set; }
 
         public DateTime Date { get; set; }

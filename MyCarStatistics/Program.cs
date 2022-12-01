@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Extensions;
-using MyCarStatistics.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder
@@ -25,12 +24,11 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews()
-    .AddMvcOptions(options 
-    => options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider()));
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddResponseCaching();
+builder.Services.AddResponseCompression();
 
 var app = builder.Build();
 
@@ -49,6 +47,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseResponseCaching();
+app.UseResponseCompression();
 
 app.UseEndpoints(endpoints =>
 {

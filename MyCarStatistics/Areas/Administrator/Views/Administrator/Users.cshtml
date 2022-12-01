@@ -34,7 +34,7 @@
                     <td>
                         @if(!(user.IsAdmin))
                         {
-                        <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeAdmin" method="post">
+                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="MakeAdmin" method="post">
                             <input type="submit" value="MakeAdmin" class="fs-6 btn btn-warning mb-3 p-2" />
                         </form>
                         }
@@ -42,7 +42,7 @@
                     <td>
                         @if (user.IsAdmin)
                         {
-                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Admin" asp-action="MakeUser" method="post">
+                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="MakeUser" method="post">
                                 <input type="submit" value="MakeUser" class="fs-6 btn btn-success mb-3 p-2" />
                             </form>
                         }
