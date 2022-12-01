@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ganss.Xss;
+using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
@@ -19,10 +20,11 @@ namespace MyCarStatistics.Services
 
         public async Task Add(CarViewModel model, string userId)
         {
+            var sanitizer = new HtmlSanitizer();
             var car = new Car()
             {
-                Brand = model.Brand,
-                CarModel = model.CarModel,
+                Brand = sanitizer.Sanitize(model.Brand),
+                CarModel = sanitizer.Sanitize(model.CarModel),
                 CreatedOn = DateTime.Now,
                 IsDeleted = false,
                 Mileage = 0,
@@ -101,10 +103,11 @@ namespace MyCarStatistics.Services
 
         public async Task SaveCar(CarViewModel model)
         {
+            var sanitizer = new HtmlSanitizer();
             var entity = await repo.GetByIdAsync<Car>(model.Id);
-            entity.Brand = model.Brand;
+            entity.Brand = sanitizer.Sanitize(model.Brand);
             entity.Mileage = model.Mileage;
-            entity.CarModel = model.CarModel;
+            entity.CarModel = sanitizer.Sanitize(model.CarModel);
 
             await repo.SaveChangesAsync();
         }

@@ -69,6 +69,12 @@ namespace MyCarStatistics.Services
                 IsDeleted = false,
                 CarId = model.CarId
             };
+
+            //Increase mileage after refueling
+            var car = await repo.GetByIdAsync<Car>(model.CarId);
+            car.Mileage += model.Trip;
+            await repo.SaveChangesAsync();
+
             await repo.AddAsync(refuel);
             await repo.SaveChangesAsync();
 

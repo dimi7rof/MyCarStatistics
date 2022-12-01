@@ -1,4 +1,6 @@
-﻿namespace MyCarStatistics.Models
+﻿using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+
+namespace MyCarStatistics.Models
 {
     public class ExpenseViewModel
     {
@@ -11,7 +13,7 @@
 
         public decimal? Trip { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; } = null!;
 
         public int CarId { get; set; }
 

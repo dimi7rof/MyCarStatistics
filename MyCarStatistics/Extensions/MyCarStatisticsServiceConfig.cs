@@ -1,4 +1,5 @@
-﻿using MyCarStatistics.Contracts;
+﻿using Ganss.Xss;
+using MyCarStatistics.Contracts;
 using MyCarStatistics.Repositories;
 using MyCarStatistics.Services;
 using System;
@@ -16,6 +17,7 @@ namespace MyCarStatistics.Extensions
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IRefuelService, RefuelService>();
             services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IHtmlSanitizer, HtmlSanitizer>();
 
             return services;
         }

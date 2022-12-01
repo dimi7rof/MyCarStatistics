@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ganss.Xss;
+using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Models;
@@ -9,23 +10,31 @@ namespace MyCarStatistics.Services
     public class ExpenseService : IExpenseService
     {
         private readonly IRepository repo;
+        private readonly IHtmlSanitizer sanitizer;
 
-        public ExpenseService(IRepository repo)
+        //public ExpenseService(IRepository repo)
+        //{
+        //    this.repo = repo;
+        //}
+
+        public ExpenseService(IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.repo = repo;
+            this.sanitizer = sanitizer;
         }
 
         public async Task AddExpense(ExpenseViewModel model)
         {
             var expense = new Expense()
             {
-                Cost= model.Cost,
+                Cost = model.Cost,
                 Trip = model.Trip,
-                Description= model.Description,
+                Description = sanitizer.Sanitize(model.Description),
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId
             };
+            
             await repo.AddAsync(expense);
             await repo.SaveChangesAsync();
         }
