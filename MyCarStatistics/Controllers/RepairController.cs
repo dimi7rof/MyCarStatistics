@@ -1,23 +1,34 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
+using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
+using MyCarStatistics.Services;
 
 namespace MyCarStatistics.Controllers
 {
     public class RepairController : BaseController
     {
-        private readonly IRepairService serviceService;
+        private readonly IRepairService repairService;
 
-        public RepairController(IRepairService _serviceService)
+        public RepairController(
+            UserManager<ApplicationUser> userManager,
+            IRepairService repairService,
+            IUserService userService)
+            : base(userManager, userService)
         {
-            serviceService = _serviceService;
+            this.repairService = repairService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Add(int carId)
         {
-            var model = await serviceService.GetCar(carId);
-            return View(model);
+            if (await UserHasRights(carId))
+            {
+                var model = await repairService.GetCar(carId);
+                return View(model);
+            }
+            return RedirectToAction("AccessDenied", "Home");           
         }
 
         [HttpPost]
@@ -27,22 +38,26 @@ namespace MyCarStatistics.Controllers
             {
                 return View(model);
             }
-            await serviceService.AddService(model);
+            await repairService.AddService(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            var all = await serviceService.GetServices(carId);
-            ViewBag.Id = carId;
-            return View(all);
+            if (await UserHasRights(carId))
+            {
+                var all = await repairService.GerRepairs(carId);
+                ViewBag.Id = carId;
+                return View(all);
+            }
+            return RedirectToAction("AccessDenied", "Home");            
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int serviceId)
         {
-            var carId = await serviceService.Delete(serviceId);
+            var carId = await repairService.Delete(serviceId);
             return RedirectToAction(nameof(All), carId);
         }
     }

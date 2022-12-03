@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ganss.Xss;
+using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
 using MyCarStatistics.Data.Models;
@@ -10,10 +11,12 @@ namespace MyCarStatistics.Services
     public class RefuelService : IRefuelService
     {        
         private readonly IRepository repo;
+        private readonly IHtmlSanitizer sanitizer;
 
-        public RefuelService(IRepository repo)
+        public RefuelService(IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.repo = repo;
+            this.sanitizer = sanitizer;
         }
 
         public async Task<int> Delete(int refId)
@@ -24,7 +27,7 @@ namespace MyCarStatistics.Services
             return entity.CarId;
         }
 
-        public async Task<RefuelViewModel> GetCar(int carId)
+        public async Task<BaseCarInfoVM> GetCar(int carId)
         {
             var entity = await repo.GetByIdAsync<Car>(carId);
             var car = new RefuelViewModel()
@@ -64,7 +67,7 @@ namespace MyCarStatistics.Services
                 Liters = model.Liters,
                 Cost = model.Cost,
                 Trip = model.Trip,
-                GasStation = model.GasStation,
+                GasStation = sanitizer.Sanitize(model.GasStation),
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId
@@ -73,8 +76,6 @@ namespace MyCarStatistics.Services
             //Increase mileage after refueling
             var car = await repo.GetByIdAsync<Car>(model.CarId);
             car.Mileage += model.Trip;
-            await repo.SaveChangesAsync();
-
             await repo.AddAsync(refuel);
             await repo.SaveChangesAsync();
 

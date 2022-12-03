@@ -8,6 +8,6 @@ namespace MyCarStatistics.Contracts
         Task AddService(RepairViewModel model);
         Task<int> Delete(int serviceId);
         Task<RepairViewModel> GetCar(int carId);
-        Task<IEnumerable<RepairViewModel>> GetServices(int carId);
+        Task<IEnumerable<RepairViewModel>> GerRepairs(int carId);
     }
 }

@@ -11,13 +11,10 @@ namespace MyCarStatistics.Services
     public class AdminService : IAdminService
     {
         private readonly IRepository repo;
-        private readonly UserManager<ApplicationUser> userManager;       
-        public AdminService(IRepository repo, UserManager<ApplicationUser> userManager)
-        {
-            this.repo = repo;
-            this.userManager = userManager;
-        }
 
+        public AdminService(IRepository repo)
+            => this.repo = repo;
+        
         public async Task<IEnumerable<CarViewModel>> GetAllCars()
         {
             var entities = await repo.AllReadonly<Car>()
@@ -39,18 +36,6 @@ namespace MyCarStatistics.Services
         public Task<ApplicationUser> GetUser(string userId)
             => repo.GetByIdAsync<ApplicationUser>(userId);        
 
-        public async Task<IEnumerable<UserViewModel>> GetUsers()
-        {
-            List<UserViewModel> users = await repo.AllReadonly<ApplicationUser>()
-            .Select( u => new UserViewModel()
-            {
-                UserName = u.UserName,
-                Email = u.Email,
-                Id = u.Id,
-                IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
-            }).ToListAsync();
-
-            return users;
-        }       
+           
     }
 }

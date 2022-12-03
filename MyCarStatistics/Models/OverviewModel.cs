@@ -2,12 +2,8 @@
 
 namespace MyCarStatistics.Models
 {
-    public class OverviewModel
-    {
-        [Required]
-        public int Id { get; set; }
-        public string Brand { get; set; } = null!;       
-        public string CarModel { get; set; } = null!;
+    public class OverviewModel : BaseCarInfoVM
+    {        
         public decimal? Mileage { get; set; }
         public int? Refuels { get; set; }
         public decimal? TotalLiters { get; set; }

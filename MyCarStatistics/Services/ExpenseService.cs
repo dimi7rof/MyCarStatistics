@@ -62,14 +62,14 @@ namespace MyCarStatistics.Services
                 .ToListAsync();
 
             return entities
-                .Select(r => new ExpenseViewModel()
+                .Select(e => new ExpenseViewModel()
                 {
-                    Id = r.Id,
+                    Id = e.Id,
                     CarModel = car.CarModel,
                     Brand = car.Brand,
-                    Cost = r.Cost,
-                    Date = r.Date,
-                    Description= r.Description,
+                    Cost = e.Cost,
+                    Date = e.Date,
+                    Description= e.Description,
                     CarId= carId
                 });
         }

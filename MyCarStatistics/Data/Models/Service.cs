@@ -13,7 +13,6 @@ namespace MyCarStatistics.Data.Models
 
         public decimal? CurrentKm { get; set; }
 
-
         [StringLength(EntityConstants.ServiceDescriptionStringLenght)]
         public string? Description { get; set; }
 

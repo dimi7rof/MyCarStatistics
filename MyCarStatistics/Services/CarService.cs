@@ -8,19 +8,19 @@ using MyCarStatistics.Repositories;
 namespace MyCarStatistics.Services
 {
     public class CarService : ICarService
-    {
-        
+    {        
         private readonly IRepository repo;
+        private readonly IHtmlSanitizer sanitizer;
 
-        public CarService(IRepository repo)
+        public CarService(IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.repo = repo;
+            this.sanitizer = sanitizer;
         }
-
 
         public async Task Add(CarViewModel model, string userId)
         {
-            var sanitizer = new HtmlSanitizer();
+            //var sanitizer = new HtmlSanitizer();
             var car = new Car()
             {
                 Brand = sanitizer.Sanitize(model.Brand),
@@ -56,8 +56,7 @@ namespace MyCarStatistics.Services
                     Brand = m.Brand,
                     Mileage = m.Mileage
                 });
-        }
-               
+        }               
 
         public async Task<CarViewModel> GetCarInfo(int carId)
         {
@@ -72,7 +71,6 @@ namespace MyCarStatistics.Services
             };
             return car;
         }
-
         public async Task<OverviewModel> GetOverviewData(int carId)
         {
             
@@ -82,7 +80,6 @@ namespace MyCarStatistics.Services
                .Include(e => e.Expenses)
                .Include(i => i.Incomes)
                .FirstAsync(x => x.Id == carId);
-
            
             var overview = new OverviewModel()
             {
@@ -103,19 +100,13 @@ namespace MyCarStatistics.Services
 
         public async Task SaveCar(CarViewModel model)
         {
-            var sanitizer = new HtmlSanitizer();
+            //var sanitizer = new HtmlSanitizer();
             var entity = await repo.GetByIdAsync<Car>(model.Id);
             entity.Brand = sanitizer.Sanitize(model.Brand);
             entity.Mileage = model.Mileage;
             entity.CarModel = sanitizer.Sanitize(model.CarModel);
 
             await repo.SaveChangesAsync();
-        }
-
-        public async Task<bool> CheckUser(int carId, string userId)
-        {
-            var car = await repo.GetByIdAsync<Car>(carId);
-            return car.UserId.Equals(userId);
-        }
+        }       
     }
 }

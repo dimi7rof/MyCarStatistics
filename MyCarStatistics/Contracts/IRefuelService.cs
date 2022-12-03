@@ -6,7 +6,7 @@ namespace MyCarStatistics.Contracts
     {
         Task AddRefuel(RefuelViewModel model);
         Task<int> Delete(int refId);
-        Task<RefuelViewModel> GetCar(int carId);
+        Task<BaseCarInfoVM> GetCar(int carId);
         Task<IEnumerable<RefuelViewModel>> GetRefuels(int carId);
     }
 }

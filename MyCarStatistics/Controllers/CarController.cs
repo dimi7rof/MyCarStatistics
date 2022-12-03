@@ -7,33 +7,27 @@ using MyCarStatistics.Models;
 namespace MyCarStatistics.Controllers
 {
     public class CarController : BaseController
-    {
-        private readonly UserManager<ApplicationUser> userManager;
+    {        
         private readonly ICarService carService;
 
-        public CarController(UserManager<ApplicationUser> userManager, ICarService carService) 
+        public CarController(
+            UserManager<ApplicationUser> userManager, 
+            ICarService carService, 
+            IUserService userService)
+            : base(userManager, userService)
         {
-            this.userManager = userManager;
             this.carService = carService;
-        }
-
-        private async Task<bool> UserCanViewCar(int carId)
-        {
-            var user = await userManager.FindByNameAsync(User.Identity?.Name);
-            return
-                await userManager.IsInRoleAsync(user, "Admin") ||
-                await carService.CheckUser(carId, user.Id);
         }
 
         [HttpPost]
         public async Task<IActionResult> Overview(int carId)
         {
-            if (await UserCanViewCar(carId))
+            if (await UserHasRights(carId))
             {
                 var carOverview = await carService.GetOverviewData(carId);
                 return View(carOverview);
             }
-            return RedirectToAction("AccessDenied", "Car");
+            return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpPost]
@@ -44,24 +38,22 @@ namespace MyCarStatistics.Controllers
                 var entity = await carService.GetCarInfo(carId);
                 return View(entity);
             }
-            if (await UserCanViewCar(carId))
+            if (await UserHasRights(carId))
             {
                 await carService.SaveCar(car);
                 return RedirectToAction(nameof(All));
             }
-
-            return RedirectToAction("AccessDenied", "Car");
+            return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int carId)
         {
-            if (await UserCanViewCar(carId))
+            if (await UserHasRights(carId))
             {
                 await carService.Delete(carId);
                 return RedirectToAction(nameof(All));
             }
-
             return RedirectToAction("AccessDenied", "Home");
         }
 

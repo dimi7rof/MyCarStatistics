@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Ganss.Xss;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models;
@@ -10,10 +11,12 @@ namespace MyCarStatistics.Services
     public class RepairService : IRepairService
     {
         private readonly IRepository repo;
+        private readonly IHtmlSanitizer sanitizer;
 
-        public RepairService(IRepository repo)
+        public RepairService(IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.repo = repo;
+            this.sanitizer = sanitizer;
         }
 
         public async Task AddService(RepairViewModel model)
@@ -23,7 +26,7 @@ namespace MyCarStatistics.Services
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId,
-                Description = model.Description,
+                Description = sanitizer.Sanitize(model.Description),
                 CurrentKm = model.CurrentMillage,
                 Cost = model.Cost
             };
@@ -51,7 +54,7 @@ namespace MyCarStatistics.Services
             return car;
         }
 
-        public async Task<IEnumerable<RepairViewModel>> GetServices(int carId)
+        public async Task<IEnumerable<RepairViewModel>> GerRepairs(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
 

@@ -16,7 +16,6 @@ namespace MyCarStatistics.Data.Models
 
         public decimal? Trip { get; set; }
 
-
         [StringLength(EntityConstants.GasStationStringLenght)]
         public string? GasStation { get; set; }
 

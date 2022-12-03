@@ -11,7 +11,7 @@ namespace MyCarStatistics.Controllers
         public HomeController(ILogger<HomeController> logger)
             => _logger = logger;
 
-        //[ResponseCache(Duration = 60)]
+        [ResponseCache(Duration = 60)]
         public IActionResult Index()
             => View();
         

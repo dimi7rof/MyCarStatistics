@@ -17,6 +17,7 @@ namespace MyCarStatistics.Extensions
             services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IRefuelService, RefuelService>();
             services.AddScoped<IRepairService, RepairService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IHtmlSanitizer, HtmlSanitizer>();
 
             return services;

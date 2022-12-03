@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
+using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers
@@ -8,7 +10,11 @@ namespace MyCarStatistics.Controllers
     {
         private readonly IIncomeService incomeServise;
 
-        public IncomeController(IIncomeService incomeServise)
+        public IncomeController(
+            UserManager<ApplicationUser> userManager,
+            IIncomeService incomeServise,
+            IUserService userService)
+            : base(userManager, userService)
         {
             this.incomeServise = incomeServise;
         }
@@ -16,8 +22,12 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> Add(int carId)
         {
-            var model = await incomeServise.GetCar(carId);
-            return View(model);
+            if (await UserHasRights(carId))
+            {
+                var model = await incomeServise.GetCar(carId);
+                return View(model);
+            }
+            return RedirectToAction("AccessDenied", "Home");           
         }
 
         [HttpPost]
@@ -34,9 +44,13 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            var all = await incomeServise.GetIncomes(carId);
-            ViewBag.Id = carId;
-            return View(all);
+            if (await UserHasRights(carId))
+            {
+                var all = await incomeServise.GetIncomes(carId);
+                ViewBag.Id = carId;
+                return View(all);
+            }
+            return RedirectToAction("AccessDenied", "Home");            
         }
 
         [HttpPost]
@@ -45,6 +59,5 @@ namespace MyCarStatistics.Controllers
             var carId = await incomeServise.Delete(incomeId);
             return RedirectToAction(nameof(All), carId);
         }
-
     }
 }

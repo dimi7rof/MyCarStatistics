@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
+using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers
@@ -7,17 +9,25 @@ namespace MyCarStatistics.Controllers
     public class ExpenseController : BaseController
     {
         private readonly IExpenseService expenseService;
-
-        public ExpenseController(IExpenseService _expenseService)
+               
+        public ExpenseController(
+            UserManager<ApplicationUser> userManager,
+            IExpenseService expenseService,
+            IUserService userService)
+            : base(userManager, userService)
         {
-            this.expenseService = _expenseService;
+            this.expenseService = expenseService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Add(int carId)
         {
-            var model = await expenseService.GetCar(carId);
-            return View(model);
+            if (await UserHasRights(carId))
+            {
+                var model = await expenseService.GetCar(carId);
+                return View(model);
+            }
+            return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpPost]
@@ -34,9 +44,13 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            var all = await expenseService.GetExpenses(carId);
-            ViewBag.Id = carId;
-            return View(all);
+            if (await UserHasRights(carId))
+            {
+                var all = await expenseService.GetExpenses(carId);
+                ViewBag.Id = carId;
+                return View(all);
+            }
+            return RedirectToAction("AccessDenied", "Home");
         }
 
         [HttpPost]

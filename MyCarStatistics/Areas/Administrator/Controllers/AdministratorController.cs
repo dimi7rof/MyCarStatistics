@@ -9,12 +9,15 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
     {
         private readonly IAdminService adminService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserService userService;
 
         public AdministratorController(IAdminService adminService,
-                UserManager<ApplicationUser> userManager)
+                UserManager<ApplicationUser> userManager,
+                IUserService userService)
         {
             this.adminService = adminService;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -24,14 +27,15 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Users()
         {
-            var users = await adminService.GetUsers();
+            var users = await userService.GetUsers();
             return View(users);
         }
 
         [HttpPost]
         public async Task<IActionResult> MakeAdmin(string userID)
         {
-            var user = await adminService.GetUser(userID);
+            var user = await userManager.FindByNameAsync(User.Identity?.Name);
+            //var user = await adminService.GetUser(userID);
             await userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
         }
@@ -39,7 +43,8 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> MakeUser(string userID)
         {
-            var user = await adminService.GetUser(userID);
+            var user = await userManager.FindByNameAsync(User.Identity?.Name);
+            //var user = await adminService.GetUser(userID);
             await userManager.RemoveFromRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
         }

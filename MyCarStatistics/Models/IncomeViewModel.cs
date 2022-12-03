@@ -1,13 +1,17 @@
-﻿namespace MyCarStatistics.Models
+﻿using MyCarStatistics.Common;
+using System.ComponentModel.DataAnnotations;
+
+namespace MyCarStatistics.Models
 {
-    public class IncomeViewModel
+    public class IncomeViewModel : BaseCarInfoVM
     {
-        public int Id { get; set; }
-        public string? Brand { get; set; }
-        public string? CarModel { get; set; }
         public decimal MoneyEarned { get; set; }
+
+        [StringLength(EntityConstants.IncomeDescriptionStringLenght)]
         public string Description { get; set; } = null!;
+
         public DateTime Date { get; set; }
+
         public int CarId { get; set; }
     }
 }
