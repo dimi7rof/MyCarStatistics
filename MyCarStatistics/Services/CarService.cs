@@ -61,8 +61,8 @@ namespace MyCarStatistics.Services
 
         public async Task<CarViewModel> GetCarInfo(int carId)
         {
-            var entity = await repo.AllReadonly<Car>()
-                .FirstOrDefaultAsync(x => x.Id == carId);
+            var entity = await repo.GetByIdAsync<Car>(carId);
+
             var car = new CarViewModel()
             { 
                 Id = carId,
@@ -81,7 +81,7 @@ namespace MyCarStatistics.Services
                .Include(r => r.Refuels)
                .Include(e => e.Expenses)
                .Include(i => i.Incomes)
-               .FirstOrDefaultAsync(x => x.Id == carId);
+               .FirstAsync(x => x.Id == carId);
 
            
             var overview = new OverviewModel()
@@ -95,7 +95,7 @@ namespace MyCarStatistics.Services
                 TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost),
                 TotalCostServices = carInfo.Refuels.Sum(e => e.Cost),
                 TotalLiters = carInfo.Refuels.Sum(e => e.Liters),
-                Refuels = carInfo.Refuels.Count()
+                Refuels = carInfo.Refuels.Count
             };
 
             return overview;

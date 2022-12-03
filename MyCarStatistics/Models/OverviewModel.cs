@@ -1,7 +1,10 @@
-﻿namespace MyCarStatistics.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MyCarStatistics.Models
 {
     public class OverviewModel
     {
+        [Required]
         public int Id { get; set; }
         public string Brand { get; set; } = null!;       
         public string CarModel { get; set; } = null!;

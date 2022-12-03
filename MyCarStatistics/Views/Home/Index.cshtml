@@ -2,13 +2,24 @@
     ViewData["Title"] = "Wellcome to MyCarStatictics";
 }
 
-<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+<h1 class="text-center">Wellcome @User?.Identity?.Name</h1>
+}
+else
+{
+    <h1 class="text-center">@ViewData["Title"]</h1>
+}
 
 <style>
-    img {   display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;}
+    img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
 </style>
 <img src="https://cdn.pixabay.com/photo/2012/04/12/23/48/car-30990__340.png" alt="Car pic" class="center">
 

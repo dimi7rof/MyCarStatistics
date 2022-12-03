@@ -7,16 +7,16 @@ using MyCarStatistics.Repositories;
 
 namespace MyCarStatistics.Services
 {
-    public class ServiceService : IServiceService
+    public class RepairService : IRepairService
     {
         private readonly IRepository repo;
 
-        public ServiceService(IRepository repo)
+        public RepairService(IRepository repo)
         {
             this.repo = repo;
         }
 
-        public async Task AddService(ServiceViewModel model)
+        public async Task AddService(RepairViewModel model)
         {
             var income = new Service()
             {
@@ -39,10 +39,10 @@ namespace MyCarStatistics.Services
             return entity.CarId;
         }
 
-        public async Task<ServiceViewModel> GetCar(int carId)
+        public async Task<RepairViewModel> GetCar(int carId)
         {
             var entity = await repo.GetByIdAsync<Car>(carId);
-            var car = new ServiceViewModel()
+            var car = new RepairViewModel()
             {
                 CarId = carId,
                 Brand = entity.Brand,
@@ -51,15 +51,16 @@ namespace MyCarStatistics.Services
             return car;
         }
 
-        public async Task<IEnumerable<ServiceViewModel>> GetServices(int carId)
+        public async Task<IEnumerable<RepairViewModel>> GetServices(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
-            var entities = await repo.AllReadonly<Service>()
-                .Where(i => i.CarId == carId && !i.IsDeleted)
-                .ToListAsync();
 
-            return entities
-                .Select(r => new ServiceViewModel()
+            //var entities = await repo.AllReadonly<Service>()
+            //    .Where(i => i.CarId == carId && !i.IsDeleted)
+            //    .ToListAsync();
+
+            return car.Services.Where(s => !s.IsDeleted)
+                .Select(r => new RepairViewModel()
                 {
                     Id = r.Id,
                     CarModel = car.CarModel,

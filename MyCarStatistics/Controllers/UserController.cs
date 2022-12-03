@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
@@ -7,21 +6,20 @@ using MyCarStatistics.Models;
 namespace MyCarStatistics.Controllers
 {
 
-    public class UserController : BaseController
+    public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
 
         public UserController(
-            UserManager<ApplicationUser> _userManager,
-            SignInManager<ApplicationUser> _signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
-            userManager = _userManager;
-            signInManager = _signInManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Register()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
@@ -34,7 +32,6 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
@@ -64,7 +61,6 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Login()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
@@ -77,7 +73,6 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -90,9 +85,14 @@ namespace MyCarStatistics.Controllers
             if (user != null)
             {
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
-
+                                
                 if (result.Succeeded)
                 {
+                    if (await userManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        //TODO redirect to admin area
+                        return RedirectToAction("Index", "Home");
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }

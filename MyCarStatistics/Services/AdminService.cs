@@ -41,14 +41,14 @@ namespace MyCarStatistics.Services
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            var users = repo.AllReadonly<ApplicationUser>()
+            List<UserViewModel> users = await repo.AllReadonly<ApplicationUser>()
             .Select( u => new UserViewModel()
             {
                 UserName = u.UserName,
                 Email = u.Email,
                 Id = u.Id,
                 IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
-            });
+            }).ToListAsync();
 
             return users;
         }       

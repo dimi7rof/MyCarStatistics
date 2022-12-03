@@ -12,11 +12,6 @@ namespace MyCarStatistics.Services
         private readonly IRepository repo;
         private readonly IHtmlSanitizer sanitizer;
 
-        //public ExpenseService(IRepository repo)
-        //{
-        //    this.repo = repo;
-        //}
-
         public ExpenseService(IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.repo = repo;

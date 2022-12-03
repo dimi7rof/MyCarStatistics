@@ -4,13 +4,13 @@ using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers
 {
-    public class IncomeController : Controller
+    public class IncomeController : BaseController
     {
         private readonly IIncomeService incomeServise;
 
-        public IncomeController(IIncomeService _incomeServise)
+        public IncomeController(IIncomeService incomeServise)
         {
-            incomeServise = _incomeServise;
+            this.incomeServise = incomeServise;
         }
 
         [HttpGet]
@@ -20,15 +20,16 @@ namespace MyCarStatistics.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Add(IncomeViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await incomeServise.AddIncome(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
@@ -37,7 +38,6 @@ namespace MyCarStatistics.Controllers
             ViewBag.Id = carId;
             return View(all);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Delete(int incomeId)

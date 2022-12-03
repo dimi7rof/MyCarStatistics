@@ -4,11 +4,11 @@ using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Controllers
 {
-    public class ServiceController : BaseController
+    public class RepairController : BaseController
     {
-        private readonly IServiceService serviceService;
+        private readonly IRepairService serviceService;
 
-        public ServiceController(IServiceService _serviceService)
+        public RepairController(IRepairService _serviceService)
         {
             serviceService = _serviceService;
         }
@@ -20,15 +20,16 @@ namespace MyCarStatistics.Controllers
             return View(model);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Add(ServiceViewModel model)
+        public async Task<IActionResult> Add(RepairViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await serviceService.AddService(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
@@ -38,14 +39,11 @@ namespace MyCarStatistics.Controllers
             return View(all);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Delete(int serviceId)
         {
             var carId = await serviceService.Delete(serviceId);
             return RedirectToAction(nameof(All), carId);
         }
-
-
     }
 }

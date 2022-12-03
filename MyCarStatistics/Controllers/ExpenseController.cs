@@ -20,15 +20,16 @@ namespace MyCarStatistics.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Add(ExpenseViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await expenseService.AddExpense(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
@@ -37,7 +38,6 @@ namespace MyCarStatistics.Controllers
             ViewBag.Id = carId;
             return View(all);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Delete(int expenceId)

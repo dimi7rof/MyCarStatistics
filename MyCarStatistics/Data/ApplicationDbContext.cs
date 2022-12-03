@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
-using static MyCarStatistics.Data.Configuration.UserConfig;
 
 namespace MyCarStatistics.Data
 {

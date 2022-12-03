@@ -14,21 +14,22 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Refuel(int carId)
+        public async Task<IActionResult> Add(int carId)
         {
             var model = await refuelService.GetCar(carId);
             return View(model);
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Refuel(RefuelViewModel model)
+        public async Task<IActionResult> Add(RefuelViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
             await refuelService.AddRefuel(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
@@ -38,13 +39,11 @@ namespace MyCarStatistics.Controllers
             return View(allRefuels);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Delete(int refId)
         {
             var carId = await refuelService.Delete(refId);
             return RedirectToAction(nameof(All), carId);
         }
-
     }
 }

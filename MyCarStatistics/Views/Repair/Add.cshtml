@@ -1,25 +1,20 @@
-﻿@model RefuelViewModel
+﻿@model RepairViewModel
 
 @{
-    ViewData["Title"] = "Refuel";
+    ViewData["Title"] = "Add Service";
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
 
 
-<form asp-controller="Refuel" asp-action="Refuel" method="post">
+<form asp-controller="Repair" asp-action="Add" method="post">
     <div class="form-row align-items-center">
 
         <div class="col-md-6">
             <label>Car: @Model.Brand</label>
-            <br/>
+            <br />
             <label>Model: @Model.CarModel</label>
-            
-        </div>
-        <div class="col-md-6">
-            <label asp-for="@Model.Liters">Liters</label>
-            <input asp-for="@Model.Liters" type="text" class="form-control mb-2" id="Liters">
-            <span asp-validation-for="@Model.Liters" class="text-danger"></span>
+
         </div>
         <div class="col-md-6">
             <label asp-for="@Model.Cost">Cost</label>
@@ -27,21 +22,21 @@
             <span asp-validation-for="@Model.Cost" class="text-danger"></span>
         </div>
         <div class="col-md-6">
-            <label asp-for="@Model.Trip">DrivenKm</label>
-            <input asp-for="@Model.Trip" type="text" class="form-control" id="DrivenKm">
-            <span asp-validation-for="@Model.Trip" class="text-danger"></span>
+            <label asp-for="@Model.CurrentMillage">CurrentMillage</label>
+            <input asp-for="@Model.CurrentMillage" type="text" class="form-control" id="CurrentMillage">
+            <span asp-validation-for="@Model.CurrentMillage" class="text-danger"></span>
         </div>
         <div class="col-md-6">
-            <label asp-for="@Model.GasStation">GasStation</label>
-            <input asp-for="@Model.GasStation" type="text" class="form-control" id="Gasstation">
-            <span asp-validation-for="@Model.GasStation" class="text-danger"></span>
+            <label asp-for="@Model.Description">Description</label>
+            <input asp-for="@Model.Description" type="text" class="form-control" id="Description">
+            <span asp-validation-for="@Model.Description" class="text-danger"></span>
         </div>
         <div class="col-md-6" hidden>
             <label asp-for="@Model.CarId">CarId</label>
             <input asp-for="@Model.CarId" type="text" class="form-control mb-2" id="CarId">
             <span asp-validation-for="@Model.CarId" class="text-danger"></span>
         </div>
-        <form class="input-group-sm" asp-route-carId="@Model.CarId" asp-controller="Refuel" asp-action="Refuel" method="post">
+        <form class="input-group-sm" asp-route-carId="@Model.CarId" asp-controller="Repair" asp-action="Add" method="post">
             <input type="submit" value="Submit" class="fs-6 btn btn-primary mt-3 p-2" />
         </form>
     </div>

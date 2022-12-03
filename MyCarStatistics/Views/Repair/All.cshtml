@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ServiceViewModel>
+﻿@model IEnumerable<RepairViewModel>
 
 @{
     ViewData["Title"] = "All Services";
@@ -12,7 +12,7 @@
             <input type="submit" value="Back" class="fs-6 btn btn-success mb-3 p-2" />
         </form>
 
-        <a asp-route-carId="@ViewBag.Id" asp-area="" asp-controller="Service" asp-action="Add">
+        <a asp-route-carId="@ViewBag.Id" asp-area="" asp-controller="Repair" asp-action="Add">
             <input type="submit" value="Add Service" class="fs-6 btn btn-primary mb-3 p-2" />
         </a>
     </div>
