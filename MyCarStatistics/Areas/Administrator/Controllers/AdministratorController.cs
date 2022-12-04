@@ -27,7 +27,7 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Users()
         {
-            var users = await userService.GetUsers();
+            var users = await adminService.GetAllUsers();
             return View(users);
         }
 

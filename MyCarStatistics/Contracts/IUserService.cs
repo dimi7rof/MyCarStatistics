@@ -4,8 +4,12 @@ namespace MyCarStatistics.Contracts
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserViewModel>> GetUsers();
+        Task<UserViewModel> GetUser(string userId);
                
-        Task<bool> CheckUser(int carId, string userId);
+        Task<bool> CheckUserOwnCar(int carId, string userId);
+
+        Task SaveUser(UserViewModel user);
+
+        Task Delete(string userId);
     }
 }

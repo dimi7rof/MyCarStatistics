@@ -23,7 +23,7 @@ namespace MyCarStatistics.Controllers
             var user = await userManager.FindByNameAsync(User.Identity?.Name);
             return
                 await userManager.IsInRoleAsync(user, "Admin") ||
-                await userService.CheckUser(carId, user.Id);
+                await userService.CheckUserOwnCar(carId, user.Id);
         }
     }
 }

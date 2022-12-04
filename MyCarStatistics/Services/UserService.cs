@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Ganss.Xss;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models;
@@ -12,31 +13,52 @@ namespace MyCarStatistics.Services
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IRepository repo;
+        private readonly IHtmlSanitizer sanitizer;
 
-        public UserService(UserManager<ApplicationUser> userManager, IRepository repo)
+        public UserService(UserManager<ApplicationUser> userManager, IRepository repo, IHtmlSanitizer sanitizer)
         {
             this.userManager = userManager;
             this.repo = repo;
+            this.sanitizer = sanitizer;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetUsers()
-        {
-            List<UserViewModel> users = await repo.AllReadonly<ApplicationUser>()
-           .Select(u => new UserViewModel()
-           {
-               UserName = u.UserName,
-               Email = u.Email,
-               Id = u.Id,
-               IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
-           }).ToListAsync();
-
-            return users;
-        }
-        
-        public async Task<bool> CheckUser(int carId, string userId)
+        public async Task<bool> CheckUserOwnCar(int carId, string userId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
             return car.UserId.Equals(userId);
+        }
+
+        public async Task Delete(string userId)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(userId);
+            user.Email = null;
+            user.FirstName = null;
+            user.LastName = null;
+            await repo.SaveChangesAsync();
+        }
+
+        public async Task<UserViewModel> GetUser(string userId)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(userId);
+            return new UserViewModel()
+            {
+                UserName = user.UserName,
+                Email = user.Email,
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsAdmin = userManager.IsInRoleAsync(user, "Admin").Result
+            };
+        }
+
+        public async Task SaveUser(UserViewModel user)
+        {
+            var entity = await repo.GetByIdAsync<ApplicationUser>(user.Id);
+            entity.UserName = sanitizer.Sanitize(user.UserName);
+            entity.FirstName = sanitizer.Sanitize(user.FirstName) ?? string.Empty;
+            entity.LastName = sanitizer.Sanitize(user.LastName) ?? string.Empty;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

@@ -19,8 +19,7 @@ namespace MyCarStatistics.Services
         }
 
         public async Task Add(CarViewModel model, string userId)
-        {
-            //var sanitizer = new HtmlSanitizer();
+        {            
             var car = new Car()
             {
                 Brand = sanitizer.Sanitize(model.Brand),
@@ -100,7 +99,6 @@ namespace MyCarStatistics.Services
 
         public async Task SaveCar(CarViewModel model)
         {
-            //var sanitizer = new HtmlSanitizer();
             var entity = await repo.GetByIdAsync<Car>(model.Id);
             entity.Brand = sanitizer.Sanitize(model.Brand);
             entity.Mileage = model.Mileage;

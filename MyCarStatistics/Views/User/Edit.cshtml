@@ -1,0 +1,45 @@
+﻿@model UserViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+
+<form asp-controller="User" asp-action="Edit" method="post">
+    <div class="form-row align-items-center">
+        <div class="col-md-6" hidden>
+            <label asp-for="@Model.Id"></label>
+            <input asp-for="@Model.Id" type="text" value="@Model.Id" class="form-control mb-2">
+            <span asp-validation-for="@Model.Id" class="text-danger"></span>
+        </div>
+        <div class="col-md-6" hidden>
+            <label asp-for="@Model.Email">Email</label>
+            <input asp-for="@Model.Email" type="text" value="@Model.Email" class="form-control mb-2">
+            <span asp-validation-for="@Model.Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.UserName">UserName</label>
+            <input asp-for="@Model.UserName" type="text" value="@Model.UserName" class="form-control mb-2">
+            <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.FirstName">FirstName</label>
+            <input asp-for="@Model.FirstName" type="text" value="@Model.FirstName" class="form-control mb-2">
+            <span asp-validation-for="@Model.FirstName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="@Model.LastName">LastName</label>
+            <input asp-for="@Model.LastName" type="text" value="@Model.LastName" class="form-control mb-2">
+            <span asp-validation-for="@Model.LastName" class="text-danger"></span>
+        </div>
+        <form class="input-group-sm" asp-route-userId="@Model.Id" asp-controller="User" asp-action="Edit" method="post">
+            <input type="submit" value="Save" class="fs-6 btn btn-primary mb-3 p-2" />
+        </form>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

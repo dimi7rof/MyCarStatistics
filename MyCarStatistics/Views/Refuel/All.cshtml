@@ -25,7 +25,10 @@
                 <th class="col-1 mt-2" scope="col">@Model.Sum(l => l.Trip)</th>
                 <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-2 mt-2" scope="col">Average</th>
-                @* <th class="col-1 mt-2" scope="col">@((Model.Sum(l => l.Liters) / Model.Sum(l => l.Trip) * 100).ToString("N")) L/100Km</th>*@
+                @if (Model != null)
+                {
+                    <th class="col-1 mt-2" scope="col">@((Model.Sum(l => l.Liters) / Model.Sum(l => l.Trip) * 100).ToString("N")) L/100Km</th>
+                }
             </tr>
         </thead>
     </table>
