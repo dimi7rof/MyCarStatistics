@@ -1,14 +1,10 @@
 ﻿using Ganss.Xss;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data;
-using MyCarStatistics.Data.Models;
-using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 using MyCarStatistics.Repositories;
 using MyCarStatistics.Services;
-using NUnit.Framework.Internal;
 
 namespace MyCarStatistics.Test
 {
@@ -38,7 +34,6 @@ namespace MyCarStatistics.Test
             var testCar2 = new CarViewModel() { Id = 2, Brand = "TestBrand2", CarModel = "TestModel2" };
             await carService.Add(testCar2, "test-user-id");
         }
-
 
         [Test]
         public async Task AddingCarToDBTest()
@@ -102,8 +97,6 @@ namespace MyCarStatistics.Test
 
             Assert.That(overView.TotalCostServices, Is.EqualTo(0));
             Assert.That(overView.Mileage, Is.EqualTo(0));
-
-
         }
     }
 }
