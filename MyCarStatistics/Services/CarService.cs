@@ -98,7 +98,7 @@ namespace MyCarStatistics.Services
                 MoneyEarned = carInfo.Incomes.Sum(i => i.Earned),
                 TotalCostRefuels = carInfo.Refuels.Sum(e => e.Cost),
                 TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost),
-                TotalCostServices = carInfo.Services.Sum(e => e.Cost),
+                TotalCostRepairs = carInfo.Services.Sum(e => e.Cost),
                 TotalLiters = carInfo.Refuels.Sum(e => e.Liters),
                 Refuels = carInfo.Refuels.Count
             };

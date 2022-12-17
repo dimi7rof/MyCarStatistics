@@ -85,7 +85,7 @@ namespace MyCarStatistics.Test
 
             await carService.SaveCar(testCar);
 
-            var editCar = context.Cars.FirstOrDefault(x => x.Id == 1);
+            var editCar = context.Cars.First(x => x.Id == 1);
 
             Assert.That(editCar.Brand, Is.EqualTo("EditedBrand"));
         }
@@ -95,7 +95,7 @@ namespace MyCarStatistics.Test
         {
             var overView = await carService.GetOverviewData(1);
 
-            Assert.That(overView.TotalCostServices, Is.EqualTo(0));
+            Assert.That(overView.TotalCostRepairs, Is.EqualTo(0));
             Assert.That(overView.Mileage, Is.EqualTo(0));
         }
     }

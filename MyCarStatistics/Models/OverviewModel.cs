@@ -8,7 +8,7 @@ namespace MyCarStatistics.Models
         public decimal? TotalLiters { get; set; }
         public decimal? TotalCostRefuels { get; set; }
         public decimal? TotalCostExpenses { get; set; }
-        public decimal? TotalCostServices { get; set; }
+        public decimal? TotalCostRepairs { get; set; }
         public decimal? MoneyEarned { get; set; }        
     }
 }
