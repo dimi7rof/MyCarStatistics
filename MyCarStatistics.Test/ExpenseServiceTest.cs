@@ -13,7 +13,7 @@ namespace MyCarStatistics.Test
     {
         private IExpenseService expenseService;
         private ICarService carService;
-        private ApplicationDbContext context;
+        private ApplicationDbContext context;       
 
         [SetUp]
         public async Task Setup()
@@ -57,21 +57,28 @@ namespace MyCarStatistics.Test
             await expenseService.Delete(1);
 
             Assert.That(context.Expenses.Where(x => x.CarId == 99).Where(x => !x.IsDeleted).Count, Is.EqualTo(0));
-        }
-
-        [Test]
-        public async Task GetCarTest()
-        {
-            
-            var carTest = await expenseService.GetCar(99);
-
-            Assert.That(carTest.CarModel, Is.EqualTo("TestModel"));
-        }
+        }      
 
         [Test]
         public async Task GetExpensesTest()
         {
+            //Assert.That(context.Expenses.Where(x => x.CarId == 99).Count, Is.EqualTo(1));
 
+            var expence = new ExpenseViewModel()
+            {
+                Id = 1,
+                Cost = 100,
+                Date = DateTime.Now,
+                Description = "Something",
+                CarId = 99,
+            };
+
+            await expenseService.AddExpense(expence);
+
+            var exp = await expenseService.GetExpenses(99);
+
+
+            Assert.That(exp != null);
         }
     }
 }

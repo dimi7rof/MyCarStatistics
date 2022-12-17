@@ -19,11 +19,11 @@ namespace MyCarStatistics.Services
         }
 
         public async Task Add(CarViewModel model, string userId)
-        {            
+        {
             var car = new Car()
             {
-                Brand = sanitizer.Sanitize(model.Brand),
-                CarModel = sanitizer.Sanitize(model.CarModel),
+                Brand = sanitizer.Sanitize(model.Brand ?? string.Empty),
+                CarModel = sanitizer.Sanitize(model.CarModel ?? string.Empty),
                 CreatedOn = DateTime.Now,
                 IsDeleted = false,
                 Mileage = 0,
@@ -74,8 +74,8 @@ namespace MyCarStatistics.Services
                 Id = carId,
                 Brand = entity.Brand,
                 CarModel = entity.CarModel,
-                Mileage = entity.Mileage,
-                User = entity.User.UserName ?? entity.User.Email
+                Mileage = entity.Mileage
+                ,User = entity.User.UserName ?? entity.User.Email
             };
             return car;
         }
@@ -109,9 +109,9 @@ namespace MyCarStatistics.Services
         public async Task SaveCar(CarViewModel model)
         {
             var entity = await repo.GetByIdAsync<Car>(model.Id);
-            entity.Brand = sanitizer.Sanitize(model.Brand);
+            entity.Brand = sanitizer.Sanitize(model.Brand ?? string.Empty);
             entity.Mileage = model.Mileage;
-            entity.CarModel = sanitizer.Sanitize(model.CarModel);
+            entity.CarModel = sanitizer.Sanitize(model.CarModel ?? string.Empty);
 
             await repo.SaveChangesAsync();
         }       

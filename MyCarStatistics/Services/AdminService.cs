@@ -33,7 +33,6 @@ namespace MyCarStatistics.Services
                         })
                     .ToListAsync();
 
-
         public async Task<IEnumerable<UserViewModel>> GetAllUsers()
         {
             var result = await repo.AllReadonly<ApplicationUser>().ToListAsync();
@@ -48,6 +47,7 @@ namespace MyCarStatistics.Services
                      IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
                  });
         }
+
         public async Task RestoreCar(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);

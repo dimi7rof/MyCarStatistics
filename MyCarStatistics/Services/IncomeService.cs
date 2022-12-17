@@ -56,11 +56,11 @@ namespace MyCarStatistics.Services
         public async Task<IEnumerable<IncomeViewModel>> GetIncomes(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
-            var entities = await repo.AllReadonly<Income>()
+            var incomes = await repo.AllReadonly<Income>()
                 .Where(i => i.CarId == carId && !i.IsDeleted)
                 .ToListAsync();
 
-            return entities
+            return incomes
                 .Select(r => new IncomeViewModel()
                 {
                     Id = r.Id,

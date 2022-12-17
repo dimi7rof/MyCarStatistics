@@ -26,7 +26,7 @@ namespace MyCarStatistics.Services
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId,
-                Description = sanitizer.Sanitize(model.Description),
+                Description = sanitizer.Sanitize(model.Description ?? string.Empty),
                 CurrentKm = model.CurrentMillage,
                 Cost = model.Cost
             };
@@ -57,10 +57,6 @@ namespace MyCarStatistics.Services
         public async Task<IEnumerable<RepairViewModel>> GerRepairs(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
-
-            //var entities = await repo.AllReadonly<Service>()
-            //    .Where(i => i.CarId == carId && !i.IsDeleted)
-            //    .ToListAsync();
 
             return car.Services.Where(s => !s.IsDeleted)
                 .Select(r => new RepairViewModel()

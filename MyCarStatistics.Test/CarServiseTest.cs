@@ -71,11 +71,11 @@ namespace MyCarStatistics.Test
             var testCar = new CarViewModel() { Id = 5, Brand = "TestBrand5", CarModel = "TestModel5" };
             await carService.Add(testCar, "test-user-id");
 
-            var car = await carService.GetCarInfo(1);
+            var car = await carService.GetCarInfo(5);
 
-            Assert.That(car.Id, Is.EqualTo(1));
-            Assert.That(car.Brand, Is.EqualTo("TestBrand"));
-            Assert.That(car.CarModel, Is.EqualTo("TestModel"));
+            Assert.That(car.Id, Is.EqualTo(5));
+            Assert.That(car.Brand, Is.EqualTo("TestBrand5"));
+            Assert.That(car.CarModel, Is.EqualTo("TestModel5"));
         }
 
         [Test]

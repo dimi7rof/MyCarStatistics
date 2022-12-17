@@ -67,7 +67,7 @@ namespace MyCarStatistics.Services
                 Liters = model.Liters,
                 Cost = model.Cost,
                 Trip = model.Trip,
-                GasStation = sanitizer.Sanitize(model.GasStation),
+                GasStation = sanitizer.Sanitize(model.GasStation ?? string.Empty),
                 Date = DateTime.Now,
                 IsDeleted = false,
                 CarId = model.CarId

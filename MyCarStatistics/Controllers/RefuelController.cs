@@ -45,10 +45,10 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            if (carId == 0)
-            {
-                carId = (int)TempData["carId"];
-            }
+            //if (carId == 0)
+            //{
+            //    carId = (int)TempData["carId"];
+            //}
             if (await UserHasRights(carId))
             {
                 var allRefuels = await refuelService.GetRefuels(carId);

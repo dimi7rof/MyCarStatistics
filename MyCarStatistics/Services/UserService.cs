@@ -1,6 +1,5 @@
 ﻿using Ganss.Xss;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
@@ -58,8 +57,8 @@ namespace MyCarStatistics.Services
         {
             var entity = await repo.GetByIdAsync<ApplicationUser>(user.Id);
             entity.UserName = sanitizer.Sanitize(user.UserName);
-            entity.FirstName = sanitizer.Sanitize(user.FirstName) ?? string.Empty;
-            entity.LastName = sanitizer.Sanitize(user.LastName) ?? string.Empty;
+            entity.FirstName = sanitizer.Sanitize(user.FirstName ?? string.Empty);
+            entity.LastName = sanitizer.Sanitize(user.LastName ?? string.Empty);
 
             await repo.SaveChangesAsync();
         }
