@@ -17,7 +17,7 @@ namespace MyCarStatistics.Controllers
             this.userManager = userManager;
             this.userService = userService;
         }
-
+       
         protected async Task<bool> UserHasRights(int carId)
         {
             var user = await userManager.FindByNameAsync(User.Identity?.Name);

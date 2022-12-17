@@ -36,7 +36,6 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         public async Task<IActionResult> MakeAdmin(string userID)
         {
             var user = await userManager.FindByIdAsync(userID);
-            //var user = await adminService.GetUser(userID);
             await userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
         }
@@ -45,7 +44,6 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         public async Task<IActionResult> MakeUser(string userID)
         {
             var user = await userManager.FindByIdAsync(userID);
-            //var user = await adminService.GetUser(userID);
             await userManager.RemoveFromRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
         }
@@ -56,6 +54,7 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
             var allCars = await adminService.GetAllCars();
             return View(allCars);
         }
+
         public async Task<IActionResult> Delete(string userId)
         {
             await userService.Delete(userId);

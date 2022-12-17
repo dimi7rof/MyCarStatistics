@@ -45,6 +45,10 @@ namespace MyCarStatistics.Services
         {
             var entities = await repo.AllReadonly<Car>()
                 .Where(x => x.UserId == userId && !x.IsDeleted)
+                .Include(x => x.Incomes)
+                .Include(x => x.Refuels)
+                .Include(x => x.Expenses)
+                .Include(x => x.Services)
                 .ToListAsync();
 
             return entities
@@ -53,7 +57,11 @@ namespace MyCarStatistics.Services
                     Id = m.Id,
                     CarModel = m.CarModel,
                     Brand = m.Brand,
-                    Mileage = m.Mileage
+                    Mileage = m.Mileage,
+                    Earned = m.Incomes.Sum(i => i.Earned),
+                    Spend =   m.Refuels.Sum(e => e.Cost)
+                            + m.Expenses.Sum(e => e.Cost)
+                            + m.Services.Sum(e => e.Cost)
                 });
         }               
 
@@ -75,9 +83,10 @@ namespace MyCarStatistics.Services
             
             var carInfo = await repo.AllReadonly<Car>()
                .Where(x => !x.IsDeleted)
-               .Include(r => r.Refuels)
-               .Include(e => e.Expenses)
-               .Include(i => i.Incomes)
+                .Include(x => x.Incomes)
+                .Include(x => x.Refuels)
+                .Include(x => x.Expenses)
+                .Include(x => x.Services)
                .FirstAsync(x => x.Id == carId);
            
             var overview = new OverviewModel()
@@ -89,7 +98,7 @@ namespace MyCarStatistics.Services
                 MoneyEarned = carInfo.Incomes.Sum(i => i.Earned),
                 TotalCostRefuels = carInfo.Refuels.Sum(e => e.Cost),
                 TotalCostExpenses = carInfo.Expenses.Sum(e => e.Cost),
-                TotalCostServices = carInfo.Refuels.Sum(e => e.Cost),
+                TotalCostServices = carInfo.Services.Sum(e => e.Cost),
                 TotalLiters = carInfo.Refuels.Sum(e => e.Liters),
                 Refuels = carInfo.Refuels.Count
             };

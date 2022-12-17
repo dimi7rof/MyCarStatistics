@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
-using MyCarStatistics.Services;
 
 namespace MyCarStatistics.Controllers
 {
@@ -44,16 +42,16 @@ namespace MyCarStatistics.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //[HttpPost]
         public async Task<IActionResult> Delete(string userId)
         {
             var user = await userManager.FindByNameAsync(User.Identity?.Name);
-            var userIid = user.Id.ToString();
-            if (userIid == userId)
+
+            if (user.Id.ToString() == userId)
             {
                 await userService.Delete(userId);
                 return RedirectToAction("Logout", "User");
             }
+
             return RedirectToAction("AccessDenied", "Home");
         }
 
@@ -128,7 +126,6 @@ namespace MyCarStatistics.Controllers
                 {
                     if (await userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        //TODO redirect to admin area
                         return RedirectToAction("Index", "Home");
                     }
                     return RedirectToAction("Index", "Home");

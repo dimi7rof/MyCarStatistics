@@ -11,8 +11,8 @@ namespace MyCarStatistics.Controllers
         private readonly IExpenseService expenseService;
                
         public ExpenseController(
-            UserManager<ApplicationUser> userManager,
             IExpenseService expenseService,
+            UserManager<ApplicationUser> userManager,
             IUserService userService)
             : base(userManager, userService)
         {
