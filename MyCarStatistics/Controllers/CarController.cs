@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
-using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
@@ -29,15 +28,7 @@ namespace MyCarStatistics.Controllers
                 return View(carOverview);
             }
             return RedirectToAction("AccessDenied", "Home");
-        }
-
-        //[HttpGet]
-        public async Task<IActionResult> Edit(int carId)
-        {
-            var entity = await carService.GetCarInfo(carId);
-            return View(entity);
-        }
-
+        }      
 
         [HttpPost]
         public async Task<IActionResult> Edit(CarViewModel car, int carId)
