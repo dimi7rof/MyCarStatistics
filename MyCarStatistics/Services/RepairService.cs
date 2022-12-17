@@ -21,7 +21,7 @@ namespace MyCarStatistics.Services
 
         public async Task AddService(RepairViewModel model)
         {
-            var income = new Service()
+            var repair = new Service()
             {
                 Date = DateTime.Now,
                 IsDeleted = false,
@@ -30,7 +30,7 @@ namespace MyCarStatistics.Services
                 CurrentKm = model.CurrentMillage,
                 Cost = model.Cost
             };
-            await repo.AddAsync(income);
+            await repo.AddAsync(repair);
             await repo.SaveChangesAsync();
         }
 
@@ -57,8 +57,11 @@ namespace MyCarStatistics.Services
         public async Task<IEnumerable<RepairViewModel>> GerRepairs(int carId)
         {
             var car = await repo.GetByIdAsync<Car>(carId);
+            var repairs = await repo.AllReadonly<Service>()
+                .Where(i => i.CarId == carId && !i.IsDeleted)
+                .ToListAsync();
 
-            return car.Services.Where(s => !s.IsDeleted)
+            return repairs
                 .Select(r => new RepairViewModel()
                 {
                     Id = r.Id,

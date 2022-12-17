@@ -46,7 +46,7 @@
                     <td>
                         @if (!user.IsDeleted)
                         {
-                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="Delete" method="post">
+                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="DeleteUser" method="post">
                                 <input type="submit" value="Delete" class="fs-6 btn btn-danger mb-3 p-2" />
                             </form>
                         }

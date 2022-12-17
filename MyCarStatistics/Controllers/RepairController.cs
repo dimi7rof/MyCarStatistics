@@ -37,6 +37,7 @@ namespace MyCarStatistics.Controllers
             {
                 return View(model);
             }
+            TempData["carId"] = model.CarId;
             await repairService.AddService(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
@@ -44,6 +45,10 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
+            if (carId == 0 && TempData["carId"] != null)
+            {
+                carId = (int)TempData["carId"];
+            }
             if (await UserHasRights(carId))
             {
                 var all = await repairService.GerRepairs(carId);
@@ -54,10 +59,10 @@ namespace MyCarStatistics.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int serviceId)
+        public async Task<IActionResult> Delete(int repairId)
         {
-            var carId = await repairService.Delete(serviceId);
-            return RedirectToAction(nameof(All), carId);
+            var carId = await repairService.Delete(repairId);
+            return RedirectToAction(nameof(All));
         }
     }
 }

@@ -23,8 +23,13 @@ namespace MyCarStatistics.Services
 
         public async Task<bool> CheckUserOwnCar(int carId, string userId)
         {
+            if (carId == 0)
+            {
+                return false;
+            }
             var car = await repo.GetByIdAsync<Car>(carId);
             return car.UserId.Equals(userId);
+
         }
 
         public async Task Delete(string userId)

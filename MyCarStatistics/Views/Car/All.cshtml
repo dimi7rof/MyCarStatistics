@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<CarViewModel>
-
 @{
     ViewData["Title"] = "My Cars";
 }
-
 <h1 class="text-center">@ViewData["Title"]</h1>
-
 
 <div class="text-center row">
     <table class="table">
@@ -18,15 +15,10 @@
                 <th class="col-1 mt-2" scope="col">Earned</th>
                 <th class="col-1 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
-                <th class="col-1 mt-2" scope="col">
-                    <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Add">Add car</a>
-                    </div>
-                </th>
+                <th class="col-1 mt-2" scope="col"></th>
             </tr>
         </thead>
         <tbody>
-
             @foreach (var car in Model)
             {
                 <tr>

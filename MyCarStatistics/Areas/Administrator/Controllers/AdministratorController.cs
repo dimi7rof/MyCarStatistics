@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models.Account;
@@ -56,7 +57,7 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
             return View(allCars);
         }
 
-        public async Task<IActionResult> Delete(string userId)
+        public async Task<IActionResult> DeleteUser(string userId)
         {
             await userService.Delete(userId);
             return RedirectToAction("Users", "Administrator");
@@ -65,6 +66,13 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         public async Task<IActionResult> Restore(int carId)
         {
             await adminService.RestoreCar(carId);
+            return RedirectToAction("Cars", "Administrator");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteCar(int carId)
+        {
+            await adminService.Delete(carId);
             return RedirectToAction("Cars", "Administrator");
         }
     }

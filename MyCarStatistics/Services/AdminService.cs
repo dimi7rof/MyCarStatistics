@@ -54,5 +54,11 @@ namespace MyCarStatistics.Services
             car.IsDeleted = false;
             await repo.SaveChangesAsync();
         }
+        public async Task Delete(int carId)
+        {
+            var entity = await repo.GetByIdAsync<Car>(carId);
+            entity.IsDeleted = true;
+            await repo.SaveChangesAsync();
+        }
     }
 }

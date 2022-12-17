@@ -10,5 +10,7 @@ namespace MyCarStatistics.Contracts
         Task<IEnumerable<CarViewModel>> GetAllCars();
 
         Task RestoreCar(int carId);
+
+        Task Delete(int carId);
     }
 }

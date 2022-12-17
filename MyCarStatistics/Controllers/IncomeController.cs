@@ -37,6 +37,7 @@ namespace MyCarStatistics.Controllers
             {
                 return View(model);
             }
+            TempData["carId"] = model.CarId;
             await incomeServise.AddIncome(model);
             return RedirectToAction(nameof(All), model.CarId);
         }
@@ -44,6 +45,10 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
+            if (carId == 0 && TempData["carId"] != null)
+            {
+                carId = (int)TempData["carId"];
+            }
             if (await UserHasRights(carId))
             {
                 var all = await incomeServise.GetIncomes(carId);

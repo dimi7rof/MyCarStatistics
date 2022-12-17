@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
+using MyCarStatistics.Data.Models;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
 
@@ -39,16 +40,17 @@ namespace MyCarStatistics.Controllers
                 return View(model);
             }
             await refuelService.AddRefuel(model);
-            return RedirectToAction(nameof(All), TempData["carId"]);
+            TempData["carId"] = model.CarId;
+            return RedirectToAction(nameof(All));
         }
 
         [HttpGet]
         public async Task<IActionResult> All(int carId)
         {
-            //if (carId == 0)
-            //{
-            //    carId = (int)TempData["carId"];
-            //}
+            if (carId == 0 && TempData["carId"] != null)
+            {
+                carId = (int)TempData["carId"];
+            }
             if (await UserHasRights(carId))
             {
                 var allRefuels = await refuelService.GetRefuels(carId);
