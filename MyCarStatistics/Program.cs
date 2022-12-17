@@ -11,7 +11,8 @@ var connectionString = builder
     ?? throw new InvalidOperationException("Connection string 'MyCarStaticticsContextConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString),
+    ServiceLifetime.Transient);
 
 //Security
 builder.Services.AddMvc(options =>

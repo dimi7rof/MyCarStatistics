@@ -10,10 +10,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <form class="form-inline" asp-controller="User" asp-action="ShowUserInfo" asp-route-id="@UserManager.GetUserName(User)">
-                <button type="submit" class="nav-link btn btn-link text-dark">@UserManager.GetUserName(User)</button>
-            </form>
-            @*<a class="nav-link text-dark" asp-controller="User" asp-action="Register">@UserManager.GetUserName(User)</a>*@
+            <form class="form-inline" asp-controller="User" asp-action="ShowUserInfo" asp-route-userId="@UserManager.GetUserId(User)">
+                <button type="submit" class="nav-link btn btn-link text-dark">@User.Identity?.Name</button>
+            </form>            
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-controller="User" asp-action="Logout" asp-route-id="@UserManager.GetUserId(User)">

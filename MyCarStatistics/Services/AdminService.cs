@@ -20,35 +20,33 @@ namespace MyCarStatistics.Services
         }
                 
         public async Task<IEnumerable<CarViewModel>> GetAllCars()
-        {
-            var entities = await repo.AllReadonly<Car>()
-                .Where(c => c.IsDeleted== false)
-                .Include(u => u.User)
-                .ToListAsync();
+            => await repo.AllReadonly<Car>()
+                    .Where(c => !c.IsDeleted)
+                    .Include(u => u.User)
+                    .Select(m => new CarViewModel()
+                        {
+                            Id = m.Id,
+                            CarModel = m.CarModel,
+                            Brand = m.Brand,
+                            Mileage = m.Mileage,
+                            User = m.User.UserName
+                        })
+                    .ToListAsync();
 
-            return entities
-                .Select(m => new CarViewModel()
-                {
-                    Id = m.Id,
-                    CarModel = m.CarModel,
-                    Brand = m.Brand,
-                    Mileage = m.Mileage,
-                    User = m.User.UserName
-                });
-        }
 
         public async Task<IEnumerable<UserViewModel>> GetAllUsers()
         {
-            List<UserViewModel> users = await repo.AllReadonly<ApplicationUser>()
-           .Select(u => new UserViewModel()
-           {
-               UserName = u.UserName,
-               Email = u.Email,
-               Id = u.Id,
-               IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
-           }).ToListAsync();
+            var result = await repo.AllReadonly<ApplicationUser>().ToListAsync();
 
-            return users;
-        }       
+            return result
+                 .Select(u => new UserViewModel()
+                 {
+                     UserName = u.UserName,
+                     Email = u.Email,
+                     Id = u.Id,
+                     IsDeleted = u.IsDeleted,
+                     IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
+                 });
+        }        
     }
 }

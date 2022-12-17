@@ -11,29 +11,27 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="col-4 mt-2" scope="col">Id</th>
+                <th class="col-3 mt-2" scope="col">Id</th>
                 <th class="col-2 mt-2" scope="col">UserName</th>
                 <th class="col-2 mt-2" scope="col">Email</th>
-                <th class="col-1 mt-2" scope="col"></th>
-                <th class="col-1 mt-2" scope="col"></th>
-                <th class="col-1 mt-2" scope="col"></th>
+                <th class="col-2 mt-2" scope="col"></th>
+                <th class="col-2 mt-2" scope="col"></th>
                 <th class="col-1 mt-2" scope="col"></th>
             </tr>
         </thead>
         <tbody>
 
-            @foreach (var user in Model)
+            @foreach (var user in Model.Where(u => !u.IsDeleted))
             {
                 <tr>
                     <td>@user.Id</td>
                     <td>@user.UserName</td>
                     <td>@user.Email</td>
-                    <td></td>
                     <td>
                         @if(!(user.IsAdmin))
                         {
                             <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="MakeAdmin" method="post">
-                            <input type="submit" value="MakeAdmin" class="fs-6 btn btn-warning mb-3 p-2" />
+                            <input type="submit" value="Give Admin Rights" class="fs-6 btn btn-warning mb-3 p-2" />
                         </form>
                         }
                     </td>                   
@@ -41,11 +39,41 @@
                         @if (user.IsAdmin)
                         {
                             <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="MakeUser" method="post">
-                                <input type="submit" value="MakeUser" class="fs-6 btn btn-success mb-3 p-2" />
+                                <input type="submit" value="Remove Admin Rights" class="fs-6 btn btn-success mb-3 p-2" />
                             </form>
                         }
                     </td>
-                    <td></td>
+                    <td>
+                        @if (!user.IsDeleted)
+                        {
+                            <form class="input-group-sm" asp-area="Administrator" asp-route-userId="@user.Id" asp-controller="Administrator" asp-action="Delete" method="post">
+                                <input type="submit" value="Delete" class="fs-6 btn btn-danger mb-3 p-2" />
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<h1 class="text-center">Deleted users</h1>
+<div class="text-center row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-4 mt-2" scope="col">Id</th>
+                <th class="col-2 mt-2" scope="col">UserName</th>
+                <th class="col-2 mt-2" scope="col">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Where(u => u.IsDeleted))
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
                 </tr>
             }
         </tbody>

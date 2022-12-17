@@ -19,18 +19,19 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">My Cars</a>
+                            </li>
+                        }
                         @if (User?.IsInRole("Admin") ?? false)
                         {
                             <li class="nav-item border-bottom box-shadow mb-3">
                                 <a class="nav-link text-dark" asp-area="Administrator" asp-controller="Administrator" asp-action="Index">Administration</a>
                             </li>
                         }
-                        else if (User?.Identity?.IsAuthenticated ?? false)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="All">My Cars</a>
-                            </li>
-                        }
+                        
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

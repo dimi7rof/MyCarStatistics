@@ -22,7 +22,10 @@ namespace MyCarStatistics.Controllers
         [HttpGet]
         [ResponseCache(Duration = 60)]
         public IActionResult AccessDenied()
-               => View();
+        {
+            _logger.Log(LogLevel.Error, "User {0} try to access forbiden page", User.Identity?.Name);
+            return View();
+        }
 
     }
 }

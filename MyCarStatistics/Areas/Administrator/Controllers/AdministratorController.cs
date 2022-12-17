@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models.Account;
+using MyCarStatistics.Models;
 
 namespace MyCarStatistics.Areas.Administrator.Controllers
 {
@@ -27,14 +28,14 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         [HttpGet]
         public async Task<IActionResult> Users()
         {
-            var users = await adminService.GetAllUsers();
+            IEnumerable<UserViewModel> users = await adminService.GetAllUsers();
             return View(users);
         }
 
         [HttpPost]
         public async Task<IActionResult> MakeAdmin(string userID)
         {
-            var user = await userManager.FindByNameAsync(User.Identity?.Name);
+            var user = await userManager.FindByIdAsync(userID);
             //var user = await adminService.GetUser(userID);
             await userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
@@ -43,18 +44,22 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         [HttpPost]
         public async Task<IActionResult> MakeUser(string userID)
         {
-            var user = await userManager.FindByNameAsync(User.Identity?.Name);
+            var user = await userManager.FindByIdAsync(userID);
             //var user = await adminService.GetUser(userID);
             await userManager.RemoveFromRoleAsync(user, "Admin");
             return RedirectToAction("Users", "Administrator");
         }
 
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> Cars()
         {
             var allCars = await adminService.GetAllCars();
             return View(allCars);
         }
-
+        public async Task<IActionResult> Delete(string userId)
+        {
+            await userService.Delete(userId);
+            return RedirectToAction("Users", "Administrator");
+        }
     }
 }

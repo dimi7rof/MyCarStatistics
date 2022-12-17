@@ -29,8 +29,8 @@ namespace MyCarStatistics.Controllers
         public async Task<IActionResult> ShowUserInfo()
         {
             var user = await userManager.FindByNameAsync(User.Identity?.Name);
-            var userId = await userService.GetUser(user.Id);
-            return View(userId);
+            var userVM = await userService.GetUser(user.Id);
+            return View(userVM);
         }
 
         [HttpPost]
@@ -41,14 +41,15 @@ namespace MyCarStatistics.Controllers
                 return View(await userService.GetUser(userVM.Id));
             }
             await userService.SaveUser(userVM);
-            return RedirectToAction("ShowUserInfo", "User");
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        //[HttpPost]
         public async Task<IActionResult> Delete(string userId)
         {
-            var user = userManager.FindByNameAsync(User.Identity?.Name).Id.ToString();
-            if (user == userId)
+            var user = await userManager.FindByNameAsync(User.Identity?.Name);
+            var userIid = user.Id.ToString();
+            if (userIid == userId)
             {
                 await userService.Delete(userId);
                 return RedirectToAction("Logout", "User");
@@ -119,7 +120,7 @@ namespace MyCarStatistics.Controllers
 
             var user = await userManager.FindByEmailAsync(model.Email);
 
-            if (user != null)
+            if (user != null && !user.IsDeleted)
             {
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 

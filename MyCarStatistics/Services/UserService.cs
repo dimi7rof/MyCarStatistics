@@ -34,6 +34,8 @@ namespace MyCarStatistics.Services
             user.Email = null;
             user.FirstName = null;
             user.LastName = null;
+            user.UserName = null;
+            user.IsDeleted = true;
             await repo.SaveChangesAsync();
         }
 
@@ -47,6 +49,7 @@ namespace MyCarStatistics.Services
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                IsDeleted = user.IsDeleted,
                 IsAdmin = userManager.IsInRoleAsync(user, "Admin").Result
             };
         }
