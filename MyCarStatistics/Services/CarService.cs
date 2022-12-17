@@ -74,7 +74,8 @@ namespace MyCarStatistics.Services
                 Id = carId,
                 Brand = entity.Brand,
                 CarModel = entity.CarModel,
-                Mileage = entity.Mileage
+                Mileage = entity.Mileage,
+                User = entity.User.UserName ?? entity.User.Email
             };
             return car;
         }
@@ -82,7 +83,6 @@ namespace MyCarStatistics.Services
         {
             
             var carInfo = await repo.AllReadonly<Car>()
-               .Where(x => !x.IsDeleted)
                 .Include(x => x.Incomes)
                 .Include(x => x.Refuels)
                 .Include(x => x.Expenses)

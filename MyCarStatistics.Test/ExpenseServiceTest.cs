@@ -21,7 +21,7 @@ namespace MyCarStatistics.Test
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
                .UseInMemoryDatabase("TestDB");
             context = new ApplicationDbContext(optionsBuilder.Options);
-
+          
             var repo = new Repository(context);
 
             expenseService = new ExpenseService(repo, new HtmlSanitizer());
@@ -62,6 +62,7 @@ namespace MyCarStatistics.Test
         [Test]
         public async Task GetCarTest()
         {
+            
             var carTest = await expenseService.GetCar(99);
 
             Assert.That(carTest.CarModel, Is.EqualTo("TestModel"));

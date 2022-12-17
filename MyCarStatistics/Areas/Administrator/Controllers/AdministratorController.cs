@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyCarStatistics.Contracts;
 using MyCarStatistics.Data.Models.Account;
 using MyCarStatistics.Models;
+using MyCarStatistics.Services;
 
 namespace MyCarStatistics.Areas.Administrator.Controllers
 {
@@ -59,6 +60,12 @@ namespace MyCarStatistics.Areas.Administrator.Controllers
         {
             await userService.Delete(userId);
             return RedirectToAction("Users", "Administrator");
+        }
+
+        public async Task<IActionResult> Restore(int carId)
+        {
+            await adminService.RestoreCar(carId);
+            return RedirectToAction("Cars", "Administrator");
         }
     }
 }

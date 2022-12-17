@@ -16,6 +16,6 @@ namespace MyCarStatistics.Contracts
 
         Task SaveCar(CarViewModel model);
 
-
+        
     }
 }

@@ -21,7 +21,6 @@ namespace MyCarStatistics.Services
                 
         public async Task<IEnumerable<CarViewModel>> GetAllCars()
             => await repo.AllReadonly<Car>()
-                    .Where(c => !c.IsDeleted)
                     .Include(u => u.User)
                     .Select(m => new CarViewModel()
                         {
@@ -29,7 +28,8 @@ namespace MyCarStatistics.Services
                             CarModel = m.CarModel,
                             Brand = m.Brand,
                             Mileage = m.Mileage,
-                            User = m.User.UserName
+                            User = m.User.UserName,
+                            IsDeleted = m.IsDeleted                            
                         })
                     .ToListAsync();
 
@@ -47,6 +47,12 @@ namespace MyCarStatistics.Services
                      IsDeleted = u.IsDeleted,
                      IsAdmin = userManager.IsInRoleAsync(u, "Admin").Result
                  });
-        }        
+        }
+        public async Task RestoreCar(int carId)
+        {
+            var car = await repo.GetByIdAsync<Car>(carId);
+            car.IsDeleted = false;
+            await repo.SaveChangesAsync();
+        }
     }
 }

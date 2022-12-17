@@ -7,5 +7,6 @@ namespace MyCarStatistics.Models
         public decimal? Spend { get; set; }
         public decimal? Earned { get; set; }
         public string? User { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
